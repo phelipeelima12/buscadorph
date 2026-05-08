@@ -2,6 +2,7 @@ import asyncio
 import aiohttp
 import sqlite3
 import re
+import json
 
 from datetime import datetime
 
@@ -15,15 +16,13 @@ HTML_NAME = "index.html"
 TIMEOUT_LISTA = 8
 
 # =========================================================
-# FONTES PUBLICAS MASSIVAS
+# FONTES PUBLICAS
 # =========================================================
 
 FONTES = [
 
-    # IPTV ORG GLOBAL
     "https://iptv-org.github.io/iptv/index.m3u",
 
-    # PAISES
     "https://iptv-org.github.io/iptv/countries/br.m3u",
     "https://iptv-org.github.io/iptv/countries/us.m3u",
     "https://iptv-org.github.io/iptv/countries/uk.m3u",
@@ -31,27 +30,18 @@ FONTES = [
     "https://iptv-org.github.io/iptv/countries/fr.m3u",
     "https://iptv-org.github.io/iptv/countries/it.m3u",
     "https://iptv-org.github.io/iptv/countries/de.m3u",
-    "https://iptv-org.github.io/iptv/countries/pt.m3u",
-    "https://iptv-org.github.io/iptv/countries/ar.m3u",
-    "https://iptv-org.github.io/iptv/countries/mx.m3u",
 
-    # CATEGORIAS
     "https://iptv-org.github.io/iptv/categories/news.m3u",
     "https://iptv-org.github.io/iptv/categories/sports.m3u",
     "https://iptv-org.github.io/iptv/categories/movies.m3u",
     "https://iptv-org.github.io/iptv/categories/kids.m3u",
     "https://iptv-org.github.io/iptv/categories/music.m3u",
     "https://iptv-org.github.io/iptv/categories/documentary.m3u",
-    "https://iptv-org.github.io/iptv/categories/entertainment.m3u",
 
-    # GITHUB PUBLICOS
     "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u",
     "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
     "https://raw.githubusercontent.com/HelmerLousas/m3u-br/main/br.m3u",
     "https://raw.githubusercontent.com/GuikiAnimes/Canal-Aberto-Brasil/main/CanalAbertoBrasil.m3u",
-    "https://raw.githubusercontent.com/LITUATUI/IPTV/main/BR.m3u",
-    "https://raw.githubusercontent.com/Geovane-S/Listas/main/Brasil.m3u",
-
 ]
 
 # =========================================================
@@ -98,14 +88,13 @@ def iniciar_banco():
     conn.close()
 
 # =========================================================
-# LIMPAR NOME
+# LIMPEZA
 # =========================================================
 
 def limpar_nome(nome):
 
     nome = nome.upper()
 
-    # LIMPEZA LEVE
     nome = re.sub(
         r'\[.*?\]|\(.*?\)|\||★|►',
         '',
@@ -117,7 +106,7 @@ def limpar_nome(nome):
     return nome
 
 # =========================================================
-# CATEGORIAS
+# CATEGORIA
 # =========================================================
 
 def detectar_categoria(nome):
@@ -146,24 +135,16 @@ def detectar_categoria(nome):
     if any(x in nome for x in [
         "KIDS",
         "CARTOON",
-        "INFANTIL",
-        "DISNEY"
+        "INFANTIL"
     ]):
         return "INFANTIL"
 
     if any(x in nome for x in [
         "NEWS",
         "CNN",
-        "FOX NEWS",
-        "GLOBO NEWS"
+        "FOX NEWS"
     ]):
         return "NOTICIAS"
-
-    if any(x in nome for x in [
-        "MUSIC",
-        "MTV"
-    ]):
-        return "MUSICA"
 
     return "GERAL"
 
@@ -237,7 +218,7 @@ def extrair_canais(conteudo):
     return canais
 
 # =========================================================
-# SALVAR BANCO
+# SALVAR DB
 # =========================================================
 
 def salvar_canal(canal):
@@ -281,7 +262,7 @@ def salvar_canal(canal):
     conn.close()
 
 # =========================================================
-# GERAR HTML
+# HTML DINAMICO
 # =========================================================
 
 def gerar_html(canais):
@@ -289,6 +270,8 @@ def gerar_html(canais):
     agora = datetime.now().strftime(
         "%d/%m/%Y %H:%M:%S"
     )
+
+    dados_json = json.dumps(canais)
 
     html = f"""
 
@@ -343,8 +326,10 @@ h1 {{
 .grid {{
     display:grid;
     grid-template-columns:
-    repeat(auto-fill,minmax(300px,1fr));
+    repeat(auto-fill,minmax(280px,1fr));
+
     gap:15px;
+
     padding:20px;
 }}
 
@@ -353,11 +338,9 @@ h1 {{
     border:1px solid #222;
     border-radius:10px;
     padding:15px;
-    transition:0.2s;
 }}
 
 .card:hover {{
-    transform:scale(1.02);
     border-color:red;
 }}
 
@@ -372,13 +355,15 @@ h1 {{
     margin-bottom:10px;
 }}
 
-input {{
-    width:100%;
+.url {{
     background:#000;
     color:#00ff00;
-    border:1px solid #333;
     padding:8px;
     font-size:11px;
+    border-radius:5px;
+    word-break:break-all;
+    height:50px;
+    overflow:hidden;
 }}
 
 .btns {{
@@ -408,8 +393,22 @@ button,a {{
     color:white;
 }}
 
-.hidden {{
-    display:none;
+.pages {{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    padding:20px;
+}}
+
+.pages button {{
+    background:#111;
+    color:white;
+    border:1px solid #333;
+    padding:10px 15px;
+}}
+
+.pages button:hover {{
+    border-color:red;
 }}
 
 </style>
@@ -424,7 +423,7 @@ button,a {{
 
 <div class="stats">
 
-TOTAL DE STREAMS:
+TOTAL:
 <b>{len(canais)}</b>
 
 |
@@ -438,104 +437,160 @@ ATUALIZADO:
 type="text"
 id="search"
 placeholder="Buscar canais..."
-onkeyup="filtrar()"
+onkeyup="buscar()"
 />
 
 </header>
 
-<div class="grid">
+<div class="grid" id="grid"></div>
 
-"""
+<div class="pages">
 
-    for i, canal in enumerate(canais):
-
-        html += f"""
-
-<div class="card"
-
-data-name="{canal['nome']}">
-
-<div class="nome">
-{canal['nome']}
-</div>
-
-<div class="categoria">
-{canal['categoria']}
-</div>
-
-<input
-type="text"
-value="{canal['url']}"
-id="u{i}"
-readonly
-/>
-
-<div class="btns">
-
-<button
-class="copy"
-onclick="copiar('u{i}')"
->
-COPIAR
+<button onclick="paginaAnterior()">
+◀ ANTERIOR
 </button>
 
-<a
-class="test"
-target="_blank"
-href="https://hls-js.netlify.app/demo/?src={canal['url']}"
->
-TESTAR
-</a>
+<div id="pageInfo"></div>
 
-</div>
-
-</div>
-
-"""
-
-    html += """
+<button onclick="proximaPagina()">
+PRÓXIMA ▶
+</button>
 
 </div>
 
 <script>
 
-function filtrar(){
+const canais = {dados_json}
 
-    let q = document
+let canaisFiltrados = [...canais]
+
+let paginaAtual = 1
+
+const porPagina = 80
+
+function renderizar(){
+
+    const grid =
+    document.getElementById("grid")
+
+    grid.innerHTML = ""
+
+    const inicio =
+    (paginaAtual - 1) * porPagina
+
+    const fim =
+    inicio + porPagina
+
+    const pagina =
+    canaisFiltrados.slice(inicio, fim)
+
+    pagina.forEach((canal, i) => {{
+
+        grid.innerHTML += `
+
+        <div class="card">
+
+            <div class="nome">
+                ${{canal.nome}}
+            </div>
+
+            <div class="categoria">
+                ${{canal.categoria}}
+            </div>
+
+            <div class="url" id="u${{i}}">
+                ${{canal.url}}
+            </div>
+
+            <div class="btns">
+
+                <button
+                class="copy"
+                onclick="copiar('${{canal.url}}')"
+                >
+                COPIAR
+                </button>
+
+                <a
+                class="test"
+                target="_blank"
+                href="https://hls-js.netlify.app/demo/?src=${{canal.url}}"
+                >
+                TESTAR
+                </a>
+
+            </div>
+
+        </div>
+
+        `
+    }})
+
+    atualizarInfo()
+}
+
+function atualizarInfo(){{
+
+    const total =
+    Math.ceil(
+        canaisFiltrados.length / porPagina
+    )
+
+    document.getElementById("pageInfo")
+    .innerHTML =
+    `Página ${{paginaAtual}} de ${{total}}`
+}}
+
+function buscar(){{
+
+    let q =
+    document
     .getElementById("search")
     .value
     .toUpperCase()
 
-    let cards =
-    document.getElementsByClassName("card")
+    canaisFiltrados =
+    canais.filter(c =>
 
-    for(let i=0;i<cards.length;i++){
+        c.nome.includes(q)
 
-        let n =
-        cards[i]
-        .getAttribute("data-name")
+    )
 
-        cards[i]
-        .classList
-        .toggle(
-            "hidden",
-            !n.includes(q)
-        )
-    }
-}
+    paginaAtual = 1
 
-function copiar(id){
+    renderizar()
+}}
 
-    let el =
-    document.getElementById(id)
+function proximaPagina(){{
 
-    el.select()
+    const total =
+    Math.ceil(
+        canaisFiltrados.length / porPagina
+    )
 
-    document.execCommand("copy")
+    if(paginaAtual < total){{
+        paginaAtual++
+        renderizar()
+    }}
+}}
+
+function paginaAnterior(){{
+
+    if(paginaAtual > 1){{
+        paginaAtual--
+        renderizar()
+    }}
+}}
+
+function copiar(texto){{
+
+    navigator.clipboard.writeText(texto)
 
     alert("URL copiada!")
 
-}
+}}
+
+renderizar()
 
 </script>
 
@@ -626,10 +681,9 @@ async def processar():
 
         )
 
-        # GERAR HTML
         gerar_html(canais_finais)
 
-        print("\n💾 HTML GERADO COM SUCESSO")
+        print("\n💾 HTML GERADO")
 
 # =========================================================
 # START
