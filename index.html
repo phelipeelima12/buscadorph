@@ -1,2021 +1,4699 @@
 
-    <!DOCTYPE html>
-    <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <title>PH-TV NUCLEAR FINDER</title>
-        <style>
-            body { background: #000; color: #0f0; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
-            .header { 
-                position: sticky; top: 0; background: rgba(0,0,0,0.95); 
-                padding: 15px; z-index: 1000; border-bottom: 2px solid #f00;
-                text-align: center; box-shadow: 0 0 20px #f005;
-            }
-            #searchBar { 
-                width: 85%; max-width: 700px; padding: 12px; border-radius: 5px; 
-                border: 1px solid #f00; background: #111; color: #fff; font-size: 16px;
-                outline: none; margin-top: 10px;
-            }
-            .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; padding: 20px; }
-            .card { background: #0a0a0a; border: 1px solid #333; padding: 15px; border-radius: 8px; transition: 0.2s; }
-            .card:hover { border-color: #f00; box-shadow: 0 0 15px #f005; transform: scale(1.02); }
-            .card strong { display: block; color: #fff; margin-bottom: 10px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-            input { width: 100%; background: #000; color: #0f0; border: 1px solid #222; padding: 8px; font-size: 10px; margin-bottom: 10px; border-radius: 4px; }
-            .btns { display: flex; gap: 5px; }
-            button, a { flex: 1; padding: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; text-decoration: none; text-align: center; }
-            .btn-copy { background: #0f0; color: #000; }
-            .btn-test { background: #f00; color: #fff; }
-            .hidden { display: none !important; }
-            .stats { color: #888; font-size: 12px; margin-top: 5px; }
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <h1>☢️ PH-TV NUCLEAR FINDER</h1>
-            <div class="stats">TOTAL DE SINAIS: <strong>218</strong> | ATUALIZADO: 08/05/2026 15:11:29</div>
-            <input type="text" id="searchBar" placeholder="Pesquise canais, filmes ou esportes..." onkeyup="filter()">
-        </div>
-        <div class="grid" id="mainGrid">
-    
-            <div class="card" data-name="1001 NOITES">
-                <strong>1001 NOITES</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-8155/ngrp:LVW8155_41E1ciuCvO_all/playlist.m3u8" id="u0" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u0')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-8155/ngrp:LVW8155_41E1ciuCvO_all/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="ADESSO TV">
-                <strong>ADESSO TV</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-9715/LVW9715_12B26T62tm/playlist.m3u8" id="u1" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u1')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-9715/LVW9715_12B26T62tm/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="AGROBRASIL TV">
-                <strong>AGROBRASIL TV</strong>
-                <input type="text" value="http://45.162.230.234:1935/agrobrasiltv/agrobrasiltv/playlist.m3u8" id="u2" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u2')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://45.162.230.234:1935/agrobrasiltv/agrobrasiltv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="AGROBRASIL TV">
-                <strong>AGROBRASIL TV</strong>
-                <input type="text" value="https://server.flixtv.com.br/agrobrasiltv/agrobrasiltv/playlist.m3u8" id="u3" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u3')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://server.flixtv.com.br/agrobrasiltv/agrobrasiltv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="ALPHA CHANNEL">
-                <strong>ALPHA CHANNEL</strong>
-                <input type="text" value="https://5b01a3d32b65c.streamlock.net:1936/tvalpha/tvalpha/playlist.m3u8" id="u4" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u4')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5b01a3d32b65c.streamlock.net:1936/tvalpha/tvalpha/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="AMAZON SAT">
-                <strong>AMAZON SAT</strong>
-                <input type="text" value="https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8" id="u5" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u5')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://amazonsat.brasilstream.com.br/hls/amazonsat/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="AWTV">
-                <strong>AWTV</strong>
-                <input type="text" value="https://awtv.nuvemplay.live/hls/stream.m3u8" id="u6" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u6')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://awtv.nuvemplay.live/hls/stream.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="BDC TV">
-                <strong>BDC TV</strong>
-                <input type="text" value="https://video01.kshost.com.br/bdctv/bdctv/playlist.m3u8" id="u7" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u7')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.kshost.com.br/bdctv/bdctv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="BOAS NOVAS">
-                <strong>BOAS NOVAS</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-9375/LVW9375_6i0wPBCHYc/playlist.m3u8" id="u8" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u8')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-9375/LVW9375_6i0wPBCHYc/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CABO FRIO TV">
-                <strong>CABO FRIO TV</strong>
-                <input type="text" value="https://59f2354c05961.streamlock.net:1443/ararutv/_definst_/ararutv/playlist.m3u8" id="u9" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u9')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://59f2354c05961.streamlock.net:1443/ararutv/_definst_/ararutv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL 25 JUNDIAÍ">
-                <strong>CANAL 25 JUNDIAÍ</strong>
-                <input type="text" value="https://stream01.msolutionbrasil.com.br/hls/canal25/live.m3u8" id="u10" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u10')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream01.msolutionbrasil.com.br/hls/canal25/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL 38">
-                <strong>CANAL 38</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-8503/LVW8503_d0V5oduFlK/playlist.m3u8" id="u11" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u11')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-8503/LVW8503_d0V5oduFlK/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL DO CRIADOR">
-                <strong>CANAL DO CRIADOR</strong>
-                <input type="text" value="https://607d2a1a47b1f.streamlock.net/crur/smil:canaldocriador.smil/playlist.m3u8" id="u12" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u12')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://607d2a1a47b1f.streamlock.net/crur/smil:canaldocriador.smil/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL DO INTER">
-                <strong>CANAL DO INTER</strong>
-                <input type="text" value="https://video01.soultv.com.br/internacional/internacional/playlist.m3u8" id="u13" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u13')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.soultv.com.br/internacional/internacional/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL EDUCAÇÃO">
-                <strong>CANAL EDUCAÇÃO</strong>
-                <input type="text" value="https://canaleducacao-stream.ebc.com.br/index.m3u8" id="u14" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u14')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://canaleducacao-stream.ebc.com.br/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL GOV">
-                <strong>CANAL GOV</strong>
-                <input type="text" value="https://canalgov-stream.ebc.com.br/index.m3u8" id="u15" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u15')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://canalgov-stream.ebc.com.br/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL LIBRAS">
-                <strong>CANAL LIBRAS</strong>
-                <input type="text" value="https://canallibras-stream.ebc.com.br/mux_video_ts/index-1.m3u8" id="u16" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u16')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://canallibras-stream.ebc.com.br/mux_video_ts/index-1.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL RICOS">
-                <strong>CANAL RICOS</strong>
-                <input type="text" value="https://5d82644094cc0.streamlock.net/ricostv/ricostv/playlist.m3u8" id="u17" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u17')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5d82644094cc0.streamlock.net/ricostv/ricostv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL RURAL">
-                <strong>CANAL RURAL</strong>
-                <input type="text" value="https://607d2a1a47b1f.streamlock.net/crur/smil:canalrural.smil/playlist.m3u8" id="u18" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u18')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://607d2a1a47b1f.streamlock.net/crur/smil:canalrural.smil/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CANAL SAÚDE">
-                <strong>CANAL SAÚDE</strong>
-                <input type="text" value="https://arkyvbre1g.zoeweb.tv/fiocruz/fiocruz.stream/playlist.m3u8" id="u19" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u19')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://arkyvbre1g.zoeweb.tv/fiocruz/fiocruz.stream/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CATVE FM">
-                <strong>CATVE FM</strong>
-                <input type="text" value="https://5b33b873179a2.streamlock.net:1443/radiocamera/livestream/playlist.m3u8" id="u20" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u20')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5b33b873179a2.streamlock.net:1443/radiocamera/livestream/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CATVE MASTER TV">
-                <strong>CATVE MASTER TV</strong>
-                <input type="text" value="https://5b33b873179a2.streamlock.net:1443/mastertv/livestream/playlist.m3u8" id="u21" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u21')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5b33b873179a2.streamlock.net:1443/mastertv/livestream/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CATVE2">
-                <strong>CATVE2</strong>
-                <input type="text" value="https://5b33b873179a2.streamlock.net:1443/catve2/catve2/playlist.m3u8" id="u22" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u22')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5b33b873179a2.streamlock.net:1443/catve2/catve2/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CAZETV">
-                <strong>CAZETV</strong>
-                <input type="text" value="https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/Caze_TV.m3u8" id="u23" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u23')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/Caze_TV.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CHROMA TV">
-                <strong>CHROMA TV</strong>
-                <input type="text" value="https://5c483b9d1019c.streamlock.net/8054/8054/playlist.m3u8" id="u24" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u24')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5c483b9d1019c.streamlock.net/8054/8054/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CINDIE TV">
-                <strong>CINDIE TV</strong>
-                <input type="text" value="https://d20xuwbyc4yoag.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/DistroTV-MuxIP-CINDIE/387.m3u8?ads.vf=grWTpG3NQNi" id="u25" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u25')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://d20xuwbyc4yoag.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/DistroTV-MuxIP-CINDIE/387.m3u8?ads.vf=grWTpG3NQNi" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CINDIE TV">
-                <strong>CINDIE TV</strong>
-                <input type="text" value="https://cc-hqw8u5r1nshjc.akamaized.net/scheduler/scheduleMaster/352.m3u8" id="u26" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u26')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cc-hqw8u5r1nshjc.akamaized.net/scheduler/scheduleMaster/352.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CLASSIQUE TV">
-                <strong>CLASSIQUE TV</strong>
-                <input type="text" value="https://stmv1.srvif.com/classique/classique/playlist.m3u8" id="u27" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u27')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvif.com/classique/classique/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="COM BRASIL">
-                <strong>COM BRASIL</strong>
-                <input type="text" value="https://br5093.streamingdevideo.com.br/abc/abc/playlist.m3u8" id="u28" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u28')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://br5093.streamingdevideo.com.br/abc/abc/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CONECTA+ TV">
-                <strong>CONECTA+ TV</strong>
-                <input type="text" value="http://189.14.239.62:1935/webtv/livestream1/playlist.m3u8" id="u29" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u29')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://189.14.239.62:1935/webtv/livestream1/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CONECTV BRASIL">
-                <strong>CONECTV BRASIL</strong>
-                <input type="text" value="https://stream01.msolutionbrasil.com.br/hls/conectv/live.m3u8" id="u30" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u30')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream01.msolutionbrasil.com.br/hls/conectv/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CONEXÃO TV">
-                <strong>CONEXÃO TV</strong>
-                <input type="text" value="https://5a57bda70564a.streamlock.net/conexaotv/conexaotv.sdp/playlist.m3u8" id="u31" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u31')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5a57bda70564a.streamlock.net/conexaotv/conexaotv.sdp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CULTURA PARÁ">
-                <strong>CULTURA PARÁ</strong>
-                <input type="text" value="http://www.portalcultura.com.br/playerhtml/funtelpa/tv_funtelpa/playlist.m3u8" id="u32" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u32')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://www.portalcultura.com.br/playerhtml/funtelpa/tv_funtelpa/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="CWB TV">
-                <strong>CWB TV</strong>
-                <input type="text" value="https://59d39900ebfb8.streamlock.net/cwbtv/cwbtv/playlist.m3u8" id="u33" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u33')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://59d39900ebfb8.streamlock.net/cwbtv/cwbtv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="DEMAIS TV">
-                <strong>DEMAIS TV</strong>
-                <input type="text" value="https://stmv1.samcast.com.br/demaistv6503/demaistv6503/playlist.m3u8" id="u34" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u34')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.samcast.com.br/demaistv6503/demaistv6503/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="DESPERTAR TV">
-                <strong>DESPERTAR TV</strong>
-                <input type="text" value="https://cdn.live.br1.jmvstream.com/webtv/pejexypz/playlist/playlist.m3u8" id="u35" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u35')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.live.br1.jmvstream.com/webtv/pejexypz/playlist/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="ELEMENTAL CHANNEL">
-                <strong>ELEMENTAL CHANNEL</strong>
-                <input type="text" value="https://5d82644094cc0.streamlock.net/8116/8116/playlist.m3u8" id="u36" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u36')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5d82644094cc0.streamlock.net/8116/8116/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="ELYTV">
-                <strong>ELYTV</strong>
-                <input type="text" value="https://stmv1.srvsite.com/ely/ely/playlist.m3u8" id="u37" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u37')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvsite.com/ely/ely/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="EUTV">
-                <strong>EUTV</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-8719/LVW8719_AcLVAxWy5J/playlist.m3u8" id="u38" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u38')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-8719/LVW8719_AcLVAxWy5J/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="FALA LITORAL">
-                <strong>FALA LITORAL</strong>
-                <input type="text" value="https://5c483b9d1019c.streamlock.net/falalitoraltv/falalitoraltv/playlist.m3u8" id="u39" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u39')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5c483b9d1019c.streamlock.net/falalitoraltv/falalitoraltv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="FONTE TV">
-                <strong>FONTE TV</strong>
-                <input type="text" value="http://flash.softhost.com.br:1935/fonte/fontetv/live.m3u8" id="u40" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u40')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://flash.softhost.com.br:1935/fonte/fontetv/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="FORA TEDIO TV">
-                <strong>FORA TEDIO TV</strong>
-                <input type="text" value="https://stmv2.srvif.com/foratedio/foratedio/playlist.m3u8" id="u41" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u41')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv2.srvif.com/foratedio/foratedio/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GE FAST">
-                <strong>GE FAST</strong>
-                <input type="text" value="https://amg00716-globo-amg00716c1-tcl-br-9495.playouts.now.amagi.tv/playlist.m3u8" id="u42" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u42')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://amg00716-globo-amg00716c1-tcl-br-9495.playouts.now.amagi.tv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GE FAST">
-                <strong>GE FAST</strong>
-                <input type="text" value="https://dfr80qz435crc.cloudfront.net/EFGH/Amagi/Globo/GE_Fast_BR/GE_Fast.m3u8" id="u43" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u43')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://dfr80qz435crc.cloudfront.net/EFGH/Amagi/Globo/GE_Fast_BR/GE_Fast.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GEEKDOT">
-                <strong>GEEKDOT</strong>
-                <input type="text" value="https://stream.ichibantv.com:3764/hybrid/play.m3u8" id="u44" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u44')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream.ichibantv.com:3764/hybrid/play.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GHOST TV">
-                <strong>GHOST TV</strong>
-                <input type="text" value="https://stmv.video.expressolider.com.br/ghostv/ghostv/playlist.m3u8" id="u45" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u45')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv.video.expressolider.com.br/ghostv/ghostv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GLOOB">
-                <strong>GLOOB</strong>
-                <input type="text" value="http://45.235.0.78/Gloob/playlist.m3u8" id="u46" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u46')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://45.235.0.78/Gloob/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GLOOB">
-                <strong>GLOOB</strong>
-                <input type="text" value="http://79.127.243.211:14436/_.m3u8" id="u47" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u47')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://79.127.243.211:14436/_.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GLOOB WEB">
-                <strong>GLOOB WEB</strong>
-                <input type="text" value="https://vs20.live.opencaster.com/globiosat_73a904af/index.m3u8" id="u48" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u48')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://vs20.live.opencaster.com/globiosat_73a904af/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GOSPEL CARTOON">
-                <strong>GOSPEL CARTOON</strong>
-                <input type="text" value="https://stmv1.srvif.com/gospelcartoon/gospelcartoon/playlist.m3u8" id="u49" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u49')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvif.com/gospelcartoon/gospelcartoon/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="GOSPEL MOVIE TV">
-                <strong>GOSPEL MOVIE TV</strong>
-                <input type="text" value="https://stmv1.srvif.com/gospelf/gospelf/playlist.m3u8" id="u50" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u50')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvif.com/gospelf/gospelf/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="IMPD TV WORLDWIDE">
-                <strong>IMPD TV WORLDWIDE</strong>
-                <input type="text" value="https://igrejamundial.nuvemplay.live/hls/stream.m3u8" id="u51" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u51')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://igrejamundial.nuvemplay.live/hls/stream.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="ISTV">
-                <strong>ISTV</strong>
-                <input type="text" value="https://stmv1.srvstm.com/sistema7933/sistema7933/playlist.m3u8" id="u52" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u52')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvstm.com/sistema7933/sistema7933/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="JOVEM PAN NEWS">
-                <strong>JOVEM PAN NEWS</strong>
-                <input type="text" value="https://d6yfbj4xxtrod.cloudfront.net/out/v1/7836eb391ec24452b149f3dc6df15bbd/index.m3u8" id="u53" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u53')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://d6yfbj4xxtrod.cloudfront.net/out/v1/7836eb391ec24452b149f3dc6df15bbd/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="KPOPTV PLAY">
-                <strong>KPOPTV PLAY</strong>
-                <input type="text" value="https://giatv.bozztv.com/giatv/giatv-kpoptvplay/kpoptvplay/playlist.m3u8" id="u54" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u54')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://giatv.bozztv.com/giatv/giatv-kpoptvplay/kpoptvplay/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="KURIAKOS CINE">
-                <strong>KURIAKOS CINE</strong>
-                <input type="text" value="https://w2.manasat.com/kcine/smil:kcine.smil/playlist.m3u8" id="u55" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u55')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://w2.manasat.com/kcine/smil:kcine.smil/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="KURIAKOS KIDS">
-                <strong>KURIAKOS KIDS</strong>
-                <input type="text" value="https://w2.manasat.com/kkids/smil:kkids.smil/playlist.m3u8" id="u56" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u56')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://w2.manasat.com/kkids/smil:kkids.smil/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="LOADING">
-                <strong>LOADING</strong>
-                <input type="text" value="https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8" id="u57" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u57')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="MKK WEB TV">
-                <strong>MKK WEB TV</strong>
-                <input type="text" value="https://video01.logicahost.com.br/mkkwebtv/mkkwebtv/playlist.m3u8" id="u58" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u58')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.logicahost.com.br/mkkwebtv/mkkwebtv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NICKONLINE">
-                <strong>NICKONLINE</strong>
-                <input type="text" value="https://x1co.com.br/hls/stream.m3u8" id="u59" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u59')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://x1co.com.br/hls/stream.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NICKONLINE SPONGEBOB">
-                <strong>NICKONLINE SPONGEBOB</strong>
-                <input type="text" value="https://lowa8026-cmyk.github.io/Brazil/NickOnlineSpongebob.m3u8" id="u60" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u60')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://lowa8026-cmyk.github.io/Brazil/NickOnlineSpongebob.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NICKONLINE SPONGEBOB">
-                <strong>NICKONLINE SPONGEBOB</strong>
-                <input type="text" value="https://spongebobnew.x1co.com.br/hls/stream.m3u8" id="u61" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u61')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://spongebobnew.x1co.com.br/hls/stream.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NICKTOONS BRASIL">
-                <strong>NICKTOONS BRASIL</strong>
-                <input type="text" value="https://stmv2.srvif.com/nicktoons/nicktoons/playlist.m3u8" id="u62" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u62')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv2.srvif.com/nicktoons/nicktoons/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NICKWEB">
-                <strong>NICKWEB</strong>
-                <input type="text" value="https://vs20.live.opencaster.com/nickelodeonbrasil_68f1743d/index.m3u8" id="u63" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u63')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://vs20.live.opencaster.com/nickelodeonbrasil_68f1743d/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NOVA ERA TV">
-                <strong>NOVA ERA TV</strong>
-                <input type="text" value="http://wz3.dnip.com.br:1935/novaeratv/novaeratv.sdp/live.m3u8" id="u64" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u64')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://wz3.dnip.com.br:1935/novaeratv/novaeratv.sdp/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NOVO TEMPO">
-                <strong>NOVO TEMPO</strong>
-                <input type="text" value="https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8" id="u65" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u65')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="NUEVO TIEMPO">
-                <strong>NUEVO TIEMPO</strong>
-                <input type="text" value="https://stream.live.novotempo.com/tv/smil:tvnuevotiempo.smil/playlist.m3u8" id="u66" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u66')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream.live.novotempo.com/tv/smil:tvnuevotiempo.smil/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PLAY TV">
-                <strong>PLAY TV</strong>
-                <input type="text" value="https://isaocorp.cloudecast.com/playtv/index.m3u8" id="u67" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u67')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://isaocorp.cloudecast.com/playtv/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PLENA TV">
-                <strong>PLENA TV</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-9591/LVW9591_PmXtgATnaS/playlist.m3u8" id="u68" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u68')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-9591/LVW9591_PmXtgATnaS/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 1">
-                <strong>PREMIERE FC 1</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20000/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u69" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u69')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20000/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 2">
-                <strong>PREMIERE FC 2</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20003/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u70" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u70')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20003/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 3">
-                <strong>PREMIERE FC 3</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20006/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u71" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u71')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20006/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 4">
-                <strong>PREMIERE FC 4</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20009/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u72" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u72')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20009/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 5">
-                <strong>PREMIERE FC 5</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20012/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u73" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u73')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20012/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 6">
-                <strong>PREMIERE FC 6</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20015/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u74" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u74')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20015/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 7">
-                <strong>PREMIERE FC 7</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20018/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u75" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u75')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20018/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PREMIERE FC 8">
-                <strong>PREMIERE FC 8</strong>
-                <input type="text" value="https://stm.sinalmycn.com/20021/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u76" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u76')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/20021/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="PRIMER TV">
-                <strong>PRIMER TV</strong>
-                <input type="text" value="http://200.194.238.229:8383/live/primer/playlist.m3u8" id="u77" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u77')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://200.194.238.229:8383/live/primer/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RBATV">
-                <strong>RBATV</strong>
-                <input type="text" value="https://cdn.live.br1.jmvstream.com/w/LVW-15748/LVW15748_Yed7yzLuRC/playlist.m3u8" id="u78" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u78')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.live.br1.jmvstream.com/w/LVW-15748/LVW15748_Yed7yzLuRC/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD NEWS">
-                <strong>RECORD NEWS</strong>
-                <input type="text" value="https://playplusnews-lh.akamaihd.net/i/pp_nws@377849/master.m3u8" id="u79" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u79')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playplusnews-lh.akamaihd.net/i/pp_nws@377849/master.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD NEWS">
-                <strong>RECORD NEWS</strong>
-                <input type="text" value="https://rnw-rn.otteravision.com/rnw/rn/rnw_rn.m3u8" id="u80" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u80')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://rnw-rn.otteravision.com/rnw/rn/rnw_rn.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD NEWS">
-                <strong>RECORD NEWS</strong>
-                <input type="text" value="https://stream.ads.ottera.tv/playlist.m3u8?network_id=2116" id="u81" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u81')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream.ads.ottera.tv/playlist.m3u8?network_id=2116" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD TV BELEM">
-                <strong>RECORD TV BELEM</strong>
-                <input type="text" value="https://playpluspa-lh.akamaihd.net/i/pp_pa@377468/index_720_av-p.m3u8" id="u82" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u82')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playpluspa-lh.akamaihd.net/i/pp_pa@377468/index_720_av-p.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD TV BRASILIA">
-                <strong>RECORD TV BRASILIA</strong>
-                <input type="text" value="https://playplusbsa-lh.akamaihd.net/i/pp_bsa@377860/index_720_av-p.m3u8" id="u83" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u83')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playplusbsa-lh.akamaihd.net/i/pp_bsa@377860/index_720_av-p.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD TV GOIAS">
-                <strong>RECORD TV GOIAS</strong>
-                <input type="text" value="https://playplusgoya-lh.akamaihd.net/i/pp_gna@377833/index_720_av-p.m3u8" id="u84" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u84')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playplusgoya-lh.akamaihd.net/i/pp_gna@377833/index_720_av-p.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD TV ITAPOAN">
-                <strong>RECORD TV ITAPOAN</strong>
-                <input type="text" value="https://playplussdr-lh.akamaihd.net/i/pp_sdr@377858/index_720_av-b.m3u8" id="u85" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u85')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playplussdr-lh.akamaihd.net/i/pp_sdr@377858/index_720_av-b.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD TV RIO">
-                <strong>RECORD TV RIO</strong>
-                <input type="text" value="https://playplusrjo-lh.akamaihd.net/i/pp_rj@377859/index_720_av-p.m3u8" id="u86" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u86')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playplusrjo-lh.akamaihd.net/i/pp_rj@377859/index_720_av-p.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD TV RS">
-                <strong>RECORD TV RS</strong>
-                <input type="text" value="https://playpluspoa-lh.akamaihd.net/i/pp_poa@377864/index_720_av-p.m3u8" id="u87" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u87')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playpluspoa-lh.akamaihd.net/i/pp_poa@377864/index_720_av-p.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORD TV SP">
-                <strong>RECORD TV SP</strong>
-                <input type="text" value="https://playplusspo-lh.akamaihd.net/i/pp_sp@350176/index_720_av-p.m3u8" id="u88" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u88')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://playplusspo-lh.akamaihd.net/i/pp_sp@350176/index_720_av-p.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORDTV">
-                <strong>RECORDTV</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8" id="u89" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u89')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RECORDTV INTERIOR SP">
-                <strong>RECORDTV INTERIOR SP</strong>
-                <input type="text" value="http://200.77.176.130:8000/udp/224.0.0.4:49152" id="u90" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u90')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://200.77.176.130:8000/udp/224.0.0.4:49152" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE CNT SALVADOR">
-                <strong>REDE CNT SALVADOR</strong>
-                <input type="text" value="http://168.205.87.198:8555/live/1368/123456/150.m3u8" id="u91" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u91')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://168.205.87.198:8555/live/1368/123456/150.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE GLOBO">
-                <strong>REDE GLOBO</strong>
-                <input type="text" value="https://cors-proxy.cooks.fyi/http://hls1.sua.tv/live/globotvbahiafhdbr2/s.m3u8" id="u92" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u92')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cors-proxy.cooks.fyi/http://hls1.sua.tv/live/globotvbahiafhdbr2/s.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE GOSPEL">
-                <strong>REDE GOSPEL</strong>
-                <input type="text" value="https://redegospel-aovivo.nuvemplay.live/hls/stream.m3u8" id="u93" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u93')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://redegospel-aovivo.nuvemplay.live/hls/stream.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE MINAS">
-                <strong>REDE MINAS</strong>
-                <input type="text" value="https://v4-slbps-sambavideos.akamaized.net/live/3282,8114,ec4b5a296d97fa99bf990662f5b4f8e1;base64np;Mc8VDxqNjXKCAf8!/amlst:Mc_tFgfGiHOdQXPB/chunklist_.m3u8" id="u94" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u94')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://v4-slbps-sambavideos.akamaized.net/live/3282,8114,ec4b5a296d97fa99bf990662f5b4f8e1;base64np;Mc8VDxqNjXKCAf8!/amlst:Mc_tFgfGiHOdQXPB/chunklist_.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE NGT">
-                <strong>REDE NGT</strong>
-                <input type="text" value="https://isaocorp.cloudecast.com/ngt/index.m3u8" id="u95" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u95')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://isaocorp.cloudecast.com/ngt/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE RC">
-                <strong>REDE RC</strong>
-                <input type="text" value="http://tv02.logicahost.com.br:1935/rederc/rederc/live.m3u8" id="u96" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u96')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://tv02.logicahost.com.br:1935/rederc/rederc/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE SPTV">
-                <strong>REDE SPTV</strong>
-                <input type="text" value="https://video01.logicahost.com.br/websptv/websptv/playlist.m3u8" id="u97" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u97')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.logicahost.com.br/websptv/websptv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE TV! ES">
-                <strong>REDE TV! ES</strong>
-                <input type="text" value="https://streaming.cloudecast.com/hls/redetves/index.m3u8" id="u98" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u98')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://streaming.cloudecast.com/hls/redetves/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE TV! MAIS">
-                <strong>REDE TV! MAIS</strong>
-                <input type="text" value="https://cdn.live.br1.jmvstream.com/webtv/AVJ-15235/playlist/playlist.m3u8" id="u99" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u99')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.live.br1.jmvstream.com/webtv/AVJ-15235/playlist/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDE TV! SP">
-                <strong>REDE TV! SP</strong>
-                <input type="text" value="https://hls.brasilstream.com.br/live/redetv/redetv/playlist.m3u8" id="u100" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u100')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://hls.brasilstream.com.br/live/redetv/redetv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="REDETV! PARANA">
-                <strong>REDETV! PARANA</strong>
-                <input type="text" value="https://tv01.zas.media:1936/redetvparana/redetvparana/playlist.m3u8" id="u101" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u101')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://tv01.zas.media:1936/redetvparana/redetvparana/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="RIT TV">
-                <strong>RIT TV</strong>
-                <input type="text" value="https://acesso.ecast.site:3648/live/ritlive.m3u8" id="u102" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u102')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://acesso.ecast.site:3648/live/ritlive.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SANTA CECILIA TV">
-                <strong>SANTA CECILIA TV</strong>
-                <input type="text" value="http://flash1.crossdigital.com.br/2063/2063/playlist.m3u8" id="u103" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u103')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://flash1.crossdigital.com.br/2063/2063/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SANTA CECILIA TV">
-                <strong>SANTA CECILIA TV</strong>
-                <input type="text" value="https://5fb29de4928ea.streamlock.net/2063/2063/playlist.m3u8" id="u104" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u104')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5fb29de4928ea.streamlock.net/2063/2063/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SBT CUIABA">
-                <strong>SBT CUIABA</strong>
-                <input type="text" value="https://video09.logicahost.com.br/sbtcuiaba/sbtcuiaba/playlist.m3u8" id="u105" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u105')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video09.logicahost.com.br/sbtcuiaba/sbtcuiaba/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SBT INTERIOR">
-                <strong>SBT INTERIOR</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-10801/LVW10801_Xvg4R0u57n/playlist.m3u8" id="u106" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u106')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-10801/LVW10801_Xvg4R0u57n/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SBT NOVA MUTUM">
-                <strong>SBT NOVA MUTUM</strong>
-                <input type="text" value="https://video09.logicahost.com.br/sbtmutum/sbtmutum/playlist.m3u8" id="u107" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u107')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video09.logicahost.com.br/sbtmutum/sbtmutum/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SBT RONDONOPOLIS">
-                <strong>SBT RONDONOPOLIS</strong>
-                <input type="text" value="https://video09.logicahost.com.br/sbtroo/sbtroo/playlist.m3u8" id="u108" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u108')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video09.logicahost.com.br/sbtroo/sbtroo/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SBT SINOP">
-                <strong>SBT SINOP</strong>
-                <input type="text" value="https://video09.logicahost.com.br/sbtsinop/sbtsinop/playlist.m3u8" id="u109" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u109')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video09.logicahost.com.br/sbtsinop/sbtsinop/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SERTÃO TV">
-                <strong>SERTÃO TV</strong>
-                <input type="text" value="http://wz4.dnip.com.br/sertaotv/sertaotv.sdp/playlist.m3u8" id="u110" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u110')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://wz4.dnip.com.br/sertaotv/sertaotv.sdp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SESC TV">
-                <strong>SESC TV</strong>
-                <input type="text" value="https://slbps-ml-sambatech.akamaized.net/samba-live/2472/7424/8a00fe7cc36ac263b2c3e9324497d5ff/video/93a9920d-1b24-4c5e-a7d2-63d5489f59b5_index.m3u8" id="u111" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u111')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://slbps-ml-sambatech.akamaized.net/samba-live/2472/7424/8a00fe7cc36ac263b2c3e9324497d5ff/video/93a9920d-1b24-4c5e-a7d2-63d5489f59b5_index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SIC TV">
-                <strong>SIC TV</strong>
-                <input type="text" value="https://parecisfmlive.brasilstream.com.br/hls/parecisfmlive/index.m3u8" id="u112" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u112')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://parecisfmlive.brasilstream.com.br/hls/parecisfmlive/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SPORTV">
-                <strong>SPORTV</strong>
-                <input type="text" value="https://stm.sinalmycn.com/21000/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u113" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u113')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/21000/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SPORTV 2">
-                <strong>SPORTV 2</strong>
-                <input type="text" value="https://stm.sinalmycn.com/21003/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u114" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u114')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/21003/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SPORTV 2 ALTERNATIVO">
-                <strong>SPORTV 2 ALTERNATIVO</strong>
-                <input type="text" value="https://stm.sinalmycn.com/19025/video.m3u8" id="u115" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u115')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/19025/video.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SPORTV 3">
-                <strong>SPORTV 3</strong>
-                <input type="text" value="https://stm.sinalmycn.com/21006/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" id="u116" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u116')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/21006/video.m3u8?token=EkP2qSi13ckjQRLSIDoxI5rMZsF5rZyEYzqWjxD248ScEUPYQ0" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="SPORTV ALTERNATIVO">
-                <strong>SPORTV ALTERNATIVO</strong>
-                <input type="text" value="https://stm.sinalmycn.com/19024/video.m3u8" id="u117" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u117')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stm.sinalmycn.com/19024/video.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="STZ TV">
-                <strong>STZ TV</strong>
-                <input type="text" value="https://cdn.live.br1.jmvstream.com/webtv/AVJ-12952/playlist/playlist.m3u8" id="u118" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u118')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.live.br1.jmvstream.com/webtv/AVJ-12952/playlist/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TCM 10">
-                <strong>TCM 10</strong>
-                <input type="text" value="https://live.tcm10.com.br/tcm10hd/stream.m3u8" id="u119" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u119')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://live.tcm10.com.br/tcm10hd/stream.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TIKTOK RADIO BRASIL">
-                <strong>TIKTOK RADIO BRASIL</strong>
-                <input type="text" value="https://d1bl6tskrpq9ze.cloudfront.net/hls/master.m3u8?ads.xumo_channelId=99992529" id="u120" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u120')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://d1bl6tskrpq9ze.cloudfront.net/hls/master.m3u8?ads.xumo_channelId=99992529" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TIMES BRASIL">
-                <strong>TIMES BRASIL</strong>
-                <input type="text" value="https://cr7v.short.gy/ManoTV/TimesBrasil/Whats75991634025/CNBC/Index.m3u8" id="u121" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u121')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cr7v.short.gy/ManoTV/TimesBrasil/Whats75991634025/CNBC/Index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TIMES BRASIL">
-                <strong>TIMES BRASIL</strong>
-                <input type="text" value="https://ssai2-ads.api.leiniao.com/global-adinsertion-api/hls/live/v2/21fdb6dd7491406bba86497a24390a25/playlist.m3u8" id="u122" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u122')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://ssai2-ads.api.leiniao.com/global-adinsertion-api/hls/live/v2/21fdb6dd7491406bba86497a24390a25/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV A CRITICA">
-                <strong>TV A CRITICA</strong>
-                <input type="text" value="https://cdn.live.br1.jmvstream.com/w/LVW-20715/LVW20715_50E3x2MCm2/playlist.m3u8" id="u123" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u123')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.live.br1.jmvstream.com/w/LVW-20715/LVW20715_50E3x2MCm2/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV A FOLHA">
-                <strong>TV A FOLHA</strong>
-                <input type="text" value="https://video01.logicahost.com.br/tvafolha/tvafolha/playlist.m3u8" id="u124" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u124')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.logicahost.com.br/tvafolha/tvafolha/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ALDEIA">
-                <strong>TV ALDEIA</strong>
-                <input type="text" value="https://stmv1.samcast.com.br/giovane7843/giovane7843/playlist.m3u8" id="u125" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u125')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.samcast.com.br/giovane7843/giovane7843/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ALIANÇA CATARINENSE">
-                <strong>TV ALIANÇA CATARINENSE</strong>
-                <input type="text" value="https://video01.logicahost.com.br/tvalianca/tvalianca/playlist.m3u8" id="u126" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u126')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.logicahost.com.br/tvalianca/tvalianca/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ALTERNATIVA">
-                <strong>TV ALTERNATIVA</strong>
-                <input type="text" value="https://stmv5.samcast.com.br/wagner7919/wagner7919/playlist.m3u8" id="u127" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u127')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv5.samcast.com.br/wagner7919/wagner7919/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV APARECIDA">
-                <strong>TV APARECIDA</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8" id="u128" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u128')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ARAPUAN">
-                <strong>TV ARAPUAN</strong>
-                <input type="text" value="https://5b7f3c45ab7c2.streamlock.net/arapuan/ngrp:arapuan_all/playlist.m3u8" id="u129" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u129')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5b7f3c45ab7c2.streamlock.net/arapuan/ngrp:arapuan_all/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ARATU">
-                <strong>TV ARATU</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-8379/LVW8379_rIq6ZYiIiA/playlist.m3u8" id="u130" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u130')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-8379/LVW8379_rIq6ZYiIiA/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ASSEMBLÉIA CEARÁ">
-                <strong>TV ASSEMBLÉIA CEARÁ</strong>
-                <input type="text" value="https://jjn5dkk9bd.zoeweb.tv/z404-live/stream/playlist.m3u8" id="u131" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u131')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://jjn5dkk9bd.zoeweb.tv/z404-live/stream/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV BAHIA">
-                <strong>TV BAHIA</strong>
-                <input type="text" value="http://hls1.sua.tv/live/globotvbahiafhdbr2/s.m3u8" id="u132" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u132')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://hls1.sua.tv/live/globotvbahiafhdbr2/s.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV BIRIGUI">
-                <strong>TV BIRIGUI</strong>
-                <input type="text" value="https://59f2354c05961.streamlock.net:1443/tvdigitalbirigui/_definst_/tvdigitalbirigui/playlist.m3u8" id="u133" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u133')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://59f2354c05961.streamlock.net:1443/tvdigitalbirigui/_definst_/tvdigitalbirigui/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV BIRIGUI">
-                <strong>TV BIRIGUI</strong>
-                <input type="text" value="http://tv02.logicahost.com.br:1935/tvdigitalbirigui/tvdigitalbirigui/live.m3u8" id="u134" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u134')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://tv02.logicahost.com.br:1935/tvdigitalbirigui/tvdigitalbirigui/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV BIRIGUI">
-                <strong>TV BIRIGUI</strong>
-                <input type="text" value="https://59f2354c05961.streamlock.net:1443/tvdigitalbirigui/tvdigitalbirigui/playlist.m3u8" id="u135" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u135')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://59f2354c05961.streamlock.net:1443/tvdigitalbirigui/tvdigitalbirigui/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV BRASIL">
-                <strong>TV BRASIL</strong>
-                <input type="text" value="https://tvbrasil-stream.ebc.com.br/index.m3u8" id="u136" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u136')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://tvbrasil-stream.ebc.com.br/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV BRASIL OESTE">
-                <strong>TV BRASIL OESTE</strong>
-                <input type="text" value="https://5ad482a77183d.streamlock.net/operacaotbomt.com/operacaotbomt.com/playlist.m3u8" id="u137" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u137')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5ad482a77183d.streamlock.net/operacaotbomt.com/operacaotbomt.com/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV BRUSQUE">
-                <strong>TV BRUSQUE</strong>
-                <input type="text" value="https://5ad482a77183d.streamlock.net/rodrigotvbrusque.com.br/5d880199c902eb4a1e8df00d/playlist.m3u8" id="u138" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u138')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5ad482a77183d.streamlock.net/rodrigotvbrusque.com.br/5d880199c902eb4a1e8df00d/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CANCAO NOVA">
-                <strong>TV CANCAO NOVA</strong>
-                <input type="text" value="https://5c65286fc6ace.streamlock.net/cancaonova/CancaoNova.stream_720p/playlist.m3u8" id="u139" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u139')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5c65286fc6ace.streamlock.net/cancaonova/CancaoNova.stream_720p/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CIDADE DE PETRÓPOLIS">
-                <strong>TV CIDADE DE PETRÓPOLIS</strong>
-                <input type="text" value="https://video01.kshost.com.br:4443/inside2133/inside2133/playlist.m3u8" id="u140" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u140')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.kshost.com.br:4443/inside2133/inside2133/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CIDADE OESTE">
-                <strong>TV CIDADE OESTE</strong>
-                <input type="text" value="https://radios.dataprimer.com.br:5443/LiveApp/streams/psuqNyPC1AW1BcUZ1573443847601.m3u8" id="u141" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u141')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://radios.dataprimer.com.br:5443/LiveApp/streams/psuqNyPC1AW1BcUZ1573443847601.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CIDADE VERDE">
-                <strong>TV CIDADE VERDE</strong>
-                <input type="text" value="https://stmv1.transmissaodigital.com/cidadeverdenovo/cidadeverdenovo/playlist.m3u8" id="u142" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u142')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.transmissaodigital.com/cidadeverdenovo/cidadeverdenovo/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CIDADE VERDE CUIABA">
-                <strong>TV CIDADE VERDE CUIABA</strong>
-                <input type="text" value="https://televisaocidadeverde.brasilstream.com.br/hls/televisaocidadeverde/index.m3u8" id="u143" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u143')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://televisaocidadeverde.brasilstream.com.br/hls/televisaocidadeverde/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CLUBE">
-                <strong>TV CLUBE</strong>
-                <input type="text" value="https://5c483b9d1019c.streamlock.net/8186/8186/playlist.m3u8" id="u144" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u144')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5c483b9d1019c.streamlock.net/8186/8186/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CULTURA">
-                <strong>TV CULTURA</strong>
-                <input type="text" value="https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8" id="u145" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u145')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CURUÇA">
-                <strong>TV CURUÇA</strong>
-                <input type="text" value="https://stmv1.srvif.com/tvcurucasp/tvcurucasp/playlist.m3u8" id="u146" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u146')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvif.com/tvcurucasp/tvcurucasp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CÂMARA">
-                <strong>TV CÂMARA</strong>
-                <input type="text" value="https://stream3.camara.gov.br/tv1/manifest.m3u8" id="u147" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u147')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream3.camara.gov.br/tv1/manifest.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CÂMARA 2">
-                <strong>TV CÂMARA 2</strong>
-                <input type="text" value="https://stream3.camara.gov.br/tv2/manifest.m3u8" id="u148" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u148')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream3.camara.gov.br/tv2/manifest.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV CÂMARA SALVADOR">
-                <strong>TV CÂMARA SALVADOR</strong>
-                <input type="text" value="https://596639ebdd89b.streamlock.net/8114/8114/playlist.m3u8" id="u149" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u149')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://596639ebdd89b.streamlock.net/8114/8114/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DAS ARTES">
-                <strong>TV DAS ARTES</strong>
-                <input type="text" value="http://tv02.logicahost.com.br:1935/tvdasartes/tvdasartes/playlist.m3u8" id="u150" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u150')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://tv02.logicahost.com.br:1935/tvdasartes/tvdasartes/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DESTAK">
-                <strong>TV DESTAK</strong>
-                <input type="text" value="http://tv02.logicahost.com.br:1935/pascoal/pascoal/live.m3u8" id="u151" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u151')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://tv02.logicahost.com.br:1935/pascoal/pascoal/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DESTAK">
-                <strong>TV DESTAK</strong>
-                <input type="text" value="https://59f2354c05961.streamlock.net:1443/pascoal/_definst_/pascoal/playlist.m3u8" id="u152" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u152')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://59f2354c05961.streamlock.net:1443/pascoal/_definst_/pascoal/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DESTAK">
-                <strong>TV DESTAK</strong>
-                <input type="text" value="https://59f2354c05961.streamlock.net:1443/pascoal/pascoal/playlist.m3u8" id="u153" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u153')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://59f2354c05961.streamlock.net:1443/pascoal/pascoal/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DIFUSORA LESTE">
-                <strong>TV DIFUSORA LESTE</strong>
-                <input type="text" value="https://stream.amsolution.net.br:8443/live/60d0a8ea6b884/index.m3u8" id="u154" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u154')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream.amsolution.net.br:8443/live/60d0a8ea6b884/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DIGITAL BIRIGUÍ">
-                <strong>TV DIGITAL BIRIGUÍ</strong>
-                <input type="text" value="http://wse01.logicahost.com.br:1935/tvdigitalbirigui/_definst_/tvdigitalbirigui/playlist.m3u8" id="u155" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u155')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://wse01.logicahost.com.br:1935/tvdigitalbirigui/_definst_/tvdigitalbirigui/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DIÁRIO MACAPÁ">
-                <strong>TV DIÁRIO MACAPÁ</strong>
-                <input type="text" value="https://5ad482a77183d.streamlock.net/marliomelohotmail.com/marliomelohotmail.com/playlist.m3u8" id="u156" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u156')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5ad482a77183d.streamlock.net/marliomelohotmail.com/marliomelohotmail.com/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV DO POVO">
-                <strong>TV DO POVO</strong>
-                <input type="text" value="https://video01.logicahost.com.br/tvdopovo1/tvdopovo1/playlist.m3u8" id="u157" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u157')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.logicahost.com.br/tvdopovo1/tvdopovo1/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV EMPIRE MAGAZINE">
-                <strong>TV EMPIRE MAGAZINE</strong>
-                <input type="text" value="https://5d82644094cc0.streamlock.net/empiremagazinetv/empiremagazinetv/playlist.m3u8" id="u158" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u158')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5d82644094cc0.streamlock.net/empiremagazinetv/empiremagazinetv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ENCONTRO DAS AGUAS">
-                <strong>TV ENCONTRO DAS AGUAS</strong>
-                <input type="text" value="https://stmv7.samcast.com.br/sistemaencontrodasaguas/sistemaencontrodasaguas/playlist.m3u8" id="u159" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u159')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv7.samcast.com.br/sistemaencontrodasaguas/sistemaencontrodasaguas/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV EVANGELIZAR">
-                <strong>TV EVANGELIZAR</strong>
-                <input type="text" value="https://5f593df7851db.streamlock.net/evangelizar/tv/playlist.m3u8" id="u160" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u160')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5f593df7851db.streamlock.net/evangelizar/tv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV FUTURO">
-                <strong>TV FUTURO</strong>
-                <input type="text" value="https://tv02.zas.media:1936/tvfuturo/tvfuturo/playlist.m3u8" id="u161" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u161')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://tv02.zas.media:1936/tvfuturo/tvfuturo/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV GIDEOES">
-                <strong>TV GIDEOES</strong>
-                <input type="text" value="https://streaming01.zas.media/gideoes/programacao/playlist.m3u8" id="u162" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u162')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://streaming01.zas.media/gideoes/programacao/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV GRANDE NATAL">
-                <strong>TV GRANDE NATAL</strong>
-                <input type="text" value="http://tvgrandenatalhd.duckdns.org:8080/hls/live.m3u8" id="u163" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u163')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://tvgrandenatalhd.duckdns.org:8080/hls/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV GRAO PARÁ">
-                <strong>TV GRAO PARÁ</strong>
-                <input type="text" value="https://video01.kshost.com.br:4443/moises3834/moises3834/playlist.m3u8" id="u164" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u164')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.kshost.com.br:4443/moises3834/moises3834/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV GUARÁ">
-                <strong>TV GUARÁ</strong>
-                <input type="text" value="https://video02.logicahost.com.br/tvguara23/tvguara23/playlist.m3u8" id="u165" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u165')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video02.logicahost.com.br/tvguara23/tvguara23/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV INTERLAGOS">
-                <strong>TV INTERLAGOS</strong>
-                <input type="text" value="https://v8.ciclano.io:1443/tvinterlagos/_definst_/tvinterlagos/playlist.m3u8" id="u166" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u166')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://v8.ciclano.io:1443/tvinterlagos/_definst_/tvinterlagos/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV LIBERDADE">
-                <strong>TV LIBERDADE</strong>
-                <input type="text" value="https://srv1.paineldevideo.com/liberdaderadioetv/liberdaderadioetv/playlist.m3u8" id="u167" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u167')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://srv1.paineldevideo.com/liberdaderadioetv/liberdaderadioetv/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV LIFE AMERICA">
-                <strong>TV LIFE AMERICA</strong>
-                <input type="text" value="https://streaming.cloudecast.com/hls/tvlifeamerica/index.m3u8" id="u168" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u168')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://streaming.cloudecast.com/hls/tvlifeamerica/index.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV MACKENZIE">
-                <strong>TV MACKENZIE</strong>
-                <input type="text" value="https://player.internetaovivo.com:8443/live_tvmackenzieabr/tvmackenzieabr/playlist.m3u8" id="u169" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u169')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://player.internetaovivo.com:8443/live_tvmackenzieabr/tvmackenzieabr/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV MAIS MARICÁ">
-                <strong>TV MAIS MARICÁ</strong>
-                <input type="text" value="https://5cf4a2c2512a2.streamlock.net/tvmaismarica/tvmaismarica/playlist.m3u8" id="u170" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u170')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5cf4a2c2512a2.streamlock.net/tvmaismarica/tvmaismarica/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV MARAJOARA">
-                <strong>TV MARAJOARA</strong>
-                <input type="text" value="https://tv02.zas.media:1936/tvmarajoara/tvmarajoara/playlist.m3u8" id="u171" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u171')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://tv02.zas.media:1936/tvmarajoara/tvmarajoara/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV MAX">
-                <strong>TV MAX</strong>
-                <input type="text" value="https://5cf4a2c2512a2.streamlock.net/tvmax/tvmax/playlist.m3u8" id="u172" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u172')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5cf4a2c2512a2.streamlock.net/tvmax/tvmax/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV METROPOLE">
-                <strong>TV METROPOLE</strong>
-                <input type="text" value="https://cdn-fundacao-2110.ciclano.io:1443/fundacao-2110/fundacao-2110/playlist.m3u8" id="u173" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u173')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn-fundacao-2110.ciclano.io:1443/fundacao-2110/fundacao-2110/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV MODELO">
-                <strong>TV MODELO</strong>
-                <input type="text" value="https://video09.logicahost.com.br/tvmodelo/tvmodelo/playlist.m3u" id="u174" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u174')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video09.logicahost.com.br/tvmodelo/tvmodelo/playlist.m3u" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV PADRE CICERO">
-                <strong>TV PADRE CICERO</strong>
-                <input type="text" value="https://video01.logicahost.com.br/tvpadrecicero/tvpadrecicero/playlist.m3u8" id="u175" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u175')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.logicahost.com.br/tvpadrecicero/tvpadrecicero/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV PAMPA">
-                <strong>TV PAMPA</strong>
-                <input type="text" value="https://video04.logicahost.com.br/tvpampa/tvpampa/playlist.m3u8" id="u176" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u176')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video04.logicahost.com.br/tvpampa/tvpampa/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV PANTANAL MS">
-                <strong>TV PANTANAL MS</strong>
-                <input type="text" value="https://5a2b083e9f360.streamlock.net/tvpantanal/tvpantanal.sdp/playlist.m3u8" id="u177" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u177')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5a2b083e9f360.streamlock.net/tvpantanal/tvpantanal.sdp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV PARAENSE">
-                <strong>TV PARAENSE</strong>
-                <input type="text" value="https://video09.logicahost.com.br/tvparaense/tvparaense/playlist.m3u" id="u178" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u178')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video09.logicahost.com.br/tvparaense/tvparaense/playlist.m3u" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV PARANÁ TURISMO">
-                <strong>TV PARANÁ TURISMO</strong>
-                <input type="text" value="http://200.189.113.201/hls/tve.m3u8" id="u179" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u179')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://200.189.113.201/hls/tve.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV PASSO FUNDO">
-                <strong>TV PASSO FUNDO</strong>
-                <input type="text" value="https://5a57bda70564a.streamlock.net/tvpasso/tvpasso.sdp/playlist.m3u8" id="u180" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u180')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5a57bda70564a.streamlock.net/tvpasso/tvpasso.sdp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SANDEGI">
-                <strong>TV SANDEGI</strong>
-                <input type="text" value="https://video01.kshost.com.br/antonio9510/antonio9510/playlist.m3u8" id="u181" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u181')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.kshost.com.br/antonio9510/antonio9510/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SERIES 1 AS PANTERAS">
-                <strong>TV SERIES 1 AS PANTERAS</strong>
-                <input type="text" value="https://stmv1.srvif.com/tvserie/tvserie/playlist.m3u8" id="u182" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u182')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.srvif.com/tvserie/tvserie/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SIM CACHOEIRO">
-                <strong>TV SIM CACHOEIRO</strong>
-                <input type="text" value="https://5cf4a2c2512a2.streamlock.net/8104/8104/playlist.m3u8" id="u183" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u183')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5cf4a2c2512a2.streamlock.net/8104/8104/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SIM COLATINA">
-                <strong>TV SIM COLATINA</strong>
-                <input type="text" value="https://5cf4a2c2512a2.streamlock.net/8132/8132/playlist.m3u8" id="u184" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u184')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5cf4a2c2512a2.streamlock.net/8132/8132/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SIM SÃO MATEUS">
-                <strong>TV SIM SÃO MATEUS</strong>
-                <input type="text" value="https://5cf4a2c2512a2.streamlock.net/8236/8236/playlist.m3u8" id="u185" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u185')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5cf4a2c2512a2.streamlock.net/8236/8236/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SOL COMUNIDADE">
-                <strong>TV SOL COMUNIDADE</strong>
-                <input type="text" value="http://streaming03.zas.media:1935/tvsol/tvsol/playlist.m3u8" id="u186" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u186')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://streaming03.zas.media:1935/tvsol/tvsol/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SUL BAHIA">
-                <strong>TV SUL BAHIA</strong>
-                <input type="text" value="https://live.cdn.upx.com/00046/myStream.sdp/playlist.m3u8" id="u187" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u187')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://live.cdn.upx.com/00046/myStream.sdp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SUL DE MINAS">
-                <strong>TV SUL DE MINAS</strong>
-                <input type="text" value="https://5cf4a2c2512a2.streamlock.net/tvsuldeminas/tvsuldeminas/playlist.m3u8" id="u188" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u188')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5cf4a2c2512a2.streamlock.net/tvsuldeminas/tvsuldeminas/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV SÃO RAIMUNDO">
-                <strong>TV SÃO RAIMUNDO</strong>
-                <input type="text" value="https://stmv1.voxtvhd.com.br/9030/9030/playlist.m3u8" id="u189" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u189')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stmv1.voxtvhd.com.br/9030/9030/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV TERCEIRO ANJO">
-                <strong>TV TERCEIRO ANJO</strong>
-                <input type="text" value="https://streamer1.streamhost.org/salive/GMI3anjoh/playlist.m3u8" id="u190" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u190')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://streamer1.streamhost.org/salive/GMI3anjoh/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV THATHI">
-                <strong>TV THATHI</strong>
-                <input type="text" value="https://cdn-grupo-10049.ciclano.io:1443/grupo-10049/grupo-10049/playlist.m3u8" id="u191" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u191')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn-grupo-10049.ciclano.io:1443/grupo-10049/grupo-10049/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV UFG">
-                <strong>TV UFG</strong>
-                <input type="text" value="http://flash.softhost.com.br:1935/ufg/tvufgweb/playlist.m3u8" id="u192" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u192')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://flash.softhost.com.br:1935/ufg/tvufgweb/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV UFOP">
-                <strong>TV UFOP</strong>
-                <input type="text" value="https://app.tvufop.com.br/hls/tvufop.m3u8" id="u193" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u193')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://app.tvufop.com.br/hls/tvufop.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV UNIVERSAL">
-                <strong>TV UNIVERSAL</strong>
-                <input type="text" value="https://644398c.ha.azioncdn.net/primary/tvuniversal_480p.sdp/playlist.m3u8" id="u194" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u194')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://644398c.ha.azioncdn.net/primary/tvuniversal_480p.sdp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV VILA REAL">
-                <strong>TV VILA REAL</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-10841/LVW10841_mT77z9o2cP/playlist.m3u8" id="u195" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u195')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-10841/LVW10841_mT77z9o2cP/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV VIÇOSA">
-                <strong>TV VIÇOSA</strong>
-                <input type="text" value="http://wz4.dnip.com.br/fratevitv/fratevitv.sdp/playlist.m3u8" id="u196" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u196')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://wz4.dnip.com.br/fratevitv/fratevitv.sdp/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TV ZOOM">
-                <strong>TV ZOOM</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-9730/LVW9730_LmUwslM8jt/playlist.m3u8" id="u197" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u197')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-9730/LVW9730_LmUwslM8jt/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVC-RIO">
-                <strong>TVC-RIO</strong>
-                <input type="text" value="https://video05.logicahost.com.br/comunitariario/comunitariario/playlist.m3u8" id="u198" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u198')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video05.logicahost.com.br/comunitariario/comunitariario/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVCOM DF">
-                <strong>TVCOM DF</strong>
-                <input type="text" value="https://5b7f3c45ab7c2.streamlock.net/8008/smil:8008.smil/playlist.m3u8?DVR=" id="u199" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u199')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://5b7f3c45ab7c2.streamlock.net/8008/smil:8008.smil/playlist.m3u8?DVR=" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVCOM MACEIÓ">
-                <strong>TVCOM MACEIÓ</strong>
-                <input type="text" value="https://srv5.zcast.com.br/tvcommaceio/tvcommaceio/playlist.m3u8" id="u200" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u200')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://srv5.zcast.com.br/tvcommaceio/tvcommaceio/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVE RS">
-                <strong>TVE RS</strong>
-                <input type="text" value="http://selpro1348.procergs.com.br:1935/tve/stve/playlist.m3u8" id="u201" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u201')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://selpro1348.procergs.com.br:1935/tve/stve/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVE RS">
-                <strong>TVE RS</strong>
-                <input type="text" value="http://streaming.procergs.com.br:1935/tve/stve/playlist.m3u8" id="u202" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u202')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://streaming.procergs.com.br:1935/tve/stve/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVE RS">
-                <strong>TVE RS</strong>
-                <input type="text" value="https://streaming.procergs.com.br:8443/tve/stve/playlist.m3u8" id="u203" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u203')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://streaming.procergs.com.br:8443/tve/stve/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVITAPÉ">
-                <strong>TVITAPÉ</strong>
-                <input type="text" value="https://stream01.msolutionbrasil.com.br/hls/tvitape/live.m3u8" id="u204" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u204')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://stream01.msolutionbrasil.com.br/hls/tvitape/live.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVMATIC COMEDY">
-                <strong>TVMATIC COMEDY</strong>
-                <input type="text" value="http://cdn.tvmatic.net/comedy.m3u8" id="u205" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u205')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://cdn.tvmatic.net/comedy.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVMATIC CRAFTS">
-                <strong>TVMATIC CRAFTS</strong>
-                <input type="text" value="http://cdn.tvmatic.net/crafts.m3u8" id="u206" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u206')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://cdn.tvmatic.net/crafts.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVMATIC FACEBOOK">
-                <strong>TVMATIC FACEBOOK</strong>
-                <input type="text" value="http://cdn.tvmatic.net/facebook.m3u8" id="u207" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u207')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://cdn.tvmatic.net/facebook.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVMATIC FIGHT">
-                <strong>TVMATIC FIGHT</strong>
-                <input type="text" value="http://cdn.tvmatic.net/fight.m3u8" id="u208" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u208')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://cdn.tvmatic.net/fight.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVMATIC FUNNY">
-                <strong>TVMATIC FUNNY</strong>
-                <input type="text" value="http://cdn.tvmatic.net/funny.m3u8" id="u209" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u209')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://cdn.tvmatic.net/funny.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVMATIC TIKTOK">
-                <strong>TVMATIC TIKTOK</strong>
-                <input type="text" value="http://cdn.tvmatic.net/tiktok.m3u8" id="u210" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u210')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://cdn.tvmatic.net/tiktok.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVNBN">
-                <strong>TVNBN</strong>
-                <input type="text" value="https://cdn.jmvstream.com/w/LVW-8410/LVW8410_uiZOVm6vz1/playlist.m3u8" id="u211" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u211')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://cdn.jmvstream.com/w/LVW-8410/LVW8410_uiZOVm6vz1/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="TVÍDEONEWS">
-                <strong>TVÍDEONEWS</strong>
-                <input type="text" value="https://video01.logicahost.com.br/tvideonews/tvideonews/playlist.m3u8" id="u212" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u212')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.logicahost.com.br/tvideonews/tvideonews/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="UMA TV">
-                <strong>UMA TV</strong>
-                <input type="text" value="https://umatv.nuvemplay.live/hls/stream.m3u8" id="u213" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u213')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://umatv.nuvemplay.live/hls/stream.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="UNISUL TV">
-                <strong>UNISUL TV</strong>
-                <input type="text" value="https://sitetv.brasilstream.com.br/hls/sitetv/index.m3u8?token=" id="u214" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u214')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://sitetv.brasilstream.com.br/hls/sitetv/index.m3u8?token=" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="UNITV PORTO ALEGRE">
-                <strong>UNITV PORTO ALEGRE</strong>
-                <input type="text" value="http://unitvaovivo.ufrgs.br:8080/live.ogg" id="u215" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u215')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=http://unitvaovivo.ufrgs.br:8080/live.ogg" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="VRT CHANNEL">
-                <strong>VRT CHANNEL</strong>
-                <input type="text" value="https://sistemavrt.vrtchannel.tv.br:3473/stream/play.m3u8" id="u216" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u216')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://sistemavrt.vrtchannel.tv.br:3473/stream/play.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-            <div class="card" data-name="VV8 TV">
-                <strong>VV8 TV</strong>
-                <input type="text" value="https://video01.kshost.com.br/seap8272/seap8272/playlist.m3u8" id="u217" readonly>
-                <div class="btns">
-                    <button class="btn-copy" onclick="copyText('u217')">COPIAR</button>
-                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src=https://video01.kshost.com.br/seap8272/seap8272/playlist.m3u8" target="_blank">TESTAR</a>
-                </div>
-            </div>
-        
-        </div>
-        <script>
-            function filter() {
-                let q = document.getElementById('searchBar').value.toUpperCase();
-                let cards = document.getElementsByClassName('card');
-                for (let i = 0; i < cards.length; i++) {
-                    let name = cards[i].getAttribute('data-name');
-                    cards[i].classList.toggle('hidden', !name.includes(q));
-                }
-            }
-            function copyText(id) {
-                let el = document.getElementById(id);
-                el.select();
-                document.execCommand("copy");
-                alert("URL Copiada!");
-            }
-        </script>
-    </body>
-    </html>
-    
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>PH-TV ULTIMATE</title>
+
+<style>
+
+body {
+    margin:0;
+    background:#050505;
+    color:white;
+    font-family:Arial;
+}
+
+header {
+    position:sticky;
+    top:0;
+    background:#000;
+    padding:20px;
+    border-bottom:2px solid red;
+    z-index:999;
+}
+
+h1 {
+    margin:0;
+    color:#ff0000;
+}
+
+.stats {
+    color:#aaa;
+    margin-top:5px;
+}
+
+#search {
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    background:#111;
+    color:white;
+    font-size:16px;
+}
+
+.grid {
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fill,minmax(300px,1fr));
+    gap:15px;
+    padding:20px;
+}
+
+.card {
+    background:#111;
+    border:1px solid #222;
+    border-radius:10px;
+    padding:15px;
+    transition:0.2s;
+}
+
+.card:hover {
+    transform:scale(1.02);
+    border-color:red;
+}
+
+.nome {
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.categoria {
+    color:#00ff88;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+input {
+    width:100%;
+    background:#000;
+    color:#00ff00;
+    border:1px solid #333;
+    padding:8px;
+    font-size:11px;
+}
+
+.btns {
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+button,a {
+    flex:1;
+    border:none;
+    padding:10px;
+    text-align:center;
+    text-decoration:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.copy {
+    background:#00ff00;
+    color:black;
+}
+
+.test {
+    background:red;
+    color:white;
+}
+
+.hidden {
+    display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>☢️ PH-TV ULTIMATE</h1>
+
+<div class="stats">
+
+ONLINE:
+<b>107</b>
+
+|
+
+ATUALIZADO:
+08/05/2026 15:32:28
+
+</div>
+
+<input
+type="text"
+id="search"
+placeholder="Buscar canais..."
+onkeyup="filtrar()"
+/>
+
+</header>
+
+<div class="grid">
+
+
+
+<div class="card"
+
+data-name="&TV">
+
+<div class="nome">
+&TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://103.229.254.25:7001/play/a09v/index.m3u8"
+id="u0"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u0')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://103.229.254.25:7001/play/a09v/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="&TV">
+
+<div class="nome">
+&TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://103.229.254.25:7001/play/a034/index.m3u8"
+id="u1"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u1')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://103.229.254.25:7001/play/a034/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="10 BOLD ADELAIDE">
+
+<div class="nome">
+10 BOLD ADELAIDE
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://dce3793146fef017.mediapackage.us-west-2.amazonaws.com/out/v1/55cdf73af7894775ba6de8f57482b66a/CMAF_HLS/index.m3u8"
+id="u2"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u2')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://dce3793146fef017.mediapackage.us-west-2.amazonaws.com/out/v1/55cdf73af7894775ba6de8f57482b66a/CMAF_HLS/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="10 TV">
+
+<div class="nome">
+10 TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://cdn-1.pishow.tv/live/391/master.m3u8"
+id="u3"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u3')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://cdn-1.pishow.tv/live/391/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="100% NEWS">
+
+<div class="nome">
+100% NEWS
+</div>
+
+<div class="categoria">
+NOTICIAS
+</div>
+
+<input
+type="text"
+value="http://85.238.112.40:8810/hls_sec/239.33.16.32-.m3u8"
+id="u4"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u4')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://85.238.112.40:8810/hls_sec/239.33.16.32-.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="12 TV PARMA">
+
+<div class="nome">
+12 TV PARMA
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://5929b138b139d.streamlock.net/12TVParma/livestream/playlist.m3u8"
+id="u5"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u5')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://5929b138b139d.streamlock.net/12TVParma/livestream/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="1ALMERE TV">
+
+<div class="nome">
+1ALMERE TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d3472rjicrodic.cloudfront.net/nlpo/clr-nlpo/709d5260/index.m3u8"
+id="u6"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u6')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d3472rjicrodic.cloudfront.net/nlpo/clr-nlpo/709d5260/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="1KZN TV">
+
+<div class="nome">
+1KZN TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://cdn.freevisiontv.co.za/sttv/smil:1kzn.stream.smil/playlist.m3u8"
+id="u7"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u7')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://cdn.freevisiontv.co.za/sttv/smil:1kzn.stream.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="1S NEWS">
+
+<div class="nome">
+1S NEWS
+</div>
+
+<div class="categoria">
+NOTICIAS
+</div>
+
+<input
+type="text"
+value="https://mumt03.tangotv.in/1SNEWS/index.m3u8"
+id="u8"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u8')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://mumt03.tangotv.in/1SNEWS/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="1TV">
+
+<div class="nome">
+1TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://tv.cdn.xsg.ge/gpb-1tv/index.m3u8"
+id="u9"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u9')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://tv.cdn.xsg.ge/gpb-1tv/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="1TWENTE TV">
+
+<div class="nome">
+1TWENTE TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://ms7.mx-cd.net/dtv-11/198-989148/1Twente_TV.smil/chunklist_w954512639_b4292608_slNLD.m3u8"
+id="u10"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u10')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://ms7.mx-cd.net/dtv-11/198-989148/1Twente_TV.smil/chunklist_w954512639_b4292608_slNLD.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="20 MINUTES TV">
+
+<div class="nome">
+20 MINUTES TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://live-20minutestv.digiteka.com/1961167769/index.m3u8"
+id="u11"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u11')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://live-20minutestv.digiteka.com/1961167769/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="21 JUMP STREET">
+
+<div class="nome">
+21 JUMP STREET
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d1oefjzrirx6fc.cloudfront.net/21_Jump_Street_SONO6.m3u8"
+id="u12"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u12')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d1oefjzrirx6fc.cloudfront.net/21_Jump_Street_SONO6.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="24 NEWS">
+
+<div class="nome">
+24 NEWS
+</div>
+
+<div class="categoria">
+NOTICIAS
+</div>
+
+<input
+type="text"
+value="https://segment.yuppcdn.net/110322/channel24/playlist.m3u8"
+id="u13"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u13')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://segment.yuppcdn.net/110322/channel24/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="2GB SYDNEY">
+
+<div class="nome">
+2GB SYDNEY
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://2gblive.akamaized.net/hls/live/2033805/2GB/index.m3u8"
+id="u14"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u14')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://2gblive.akamaized.net/hls/live/2033805/2GB/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="2M MONDE +1">
+
+<div class="nome">
+2M MONDE +1
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8"
+id="u15"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u15')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d2qh3gh0k5vp3v.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-n6pess5lwbghr/2M_ES.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="2TV">
+
+<div class="nome">
+2TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://tv.cdn.xsg.ge/gpb-2tv/index.m3u8"
+id="u16"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u16')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://tv.cdn.xsg.ge/gpb-2tv/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="312 КИНО">
+
+<div class="nome">
+312 КИНО
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://176.126.166.43:1935/live/312kino/playlist.m3u8"
+id="u17"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u17')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://176.126.166.43:1935/live/312kino/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="312 ТВ">
+
+<div class="nome">
+312 ТВ
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://176.126.166.43:1935/live/312musik/playlist.m3u8"
+id="u18"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u18')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://176.126.166.43:1935/live/312musik/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="365 ДНЕЙ">
+
+<div class="nome">
+365 ДНЕЙ
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://31.148.48.15/365_dney/index.m3u8"
+id="u19"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u19')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://31.148.48.15/365_dney/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN CANADA">
+
+<div class="nome">
+3ABN CANADA
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abncanada/3ABN/master.m3u8"
+id="u20"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u20')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abncanada/3ABN/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN DARE TO DREAM NETWORK">
+
+<div class="nome">
+3ABN DARE TO DREAM NETWORK
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn2/d2d_live/smil:d2d_live.smil/playlist.m3u8"
+id="u21"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u21')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn2/d2d_live/smil:d2d_live.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN ENGLISH">
+
+<div class="nome">
+3ABN ENGLISH
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn2/3abn_live/smil:3abn_live.smil/playlist.m3u8"
+id="u22"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u22')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn2/3abn_live/smil:3abn_live.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN FRENCH">
+
+<div class="nome">
+3ABN FRENCH
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn2/Fre_live/smil:Fre_live.smil/playlist.m3u8"
+id="u23"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u23')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn2/Fre_live/smil:Fre_live.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN INTERNATIONAL NETWORK">
+
+<div class="nome">
+3ABN INTERNATIONAL NETWORK
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn2/Int_live/smil:Int_live.smil/playlist.m3u8"
+id="u24"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u24')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn2/Int_live/smil:Int_live.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN KIDS NETWORK">
+
+<div class="nome">
+3ABN KIDS NETWORK
+</div>
+
+<div class="categoria">
+INFANTIL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn2/Kids_live/smil:Kids_live.smil/playlist.m3u8"
+id="u25"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u25')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn2/Kids_live/smil:Kids_live.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN LATINO">
+
+<div class="nome">
+3ABN LATINO
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn2/Lat_live/smil:Lat_live.smil/playlist.m3u8"
+id="u26"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u26')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn2/Lat_live/smil:Lat_live.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN PRAISE HIM MUSIC NETWORK">
+
+<div class="nome">
+3ABN PRAISE HIM MUSIC NETWORK
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn1/PraiseHim/smil:PraiseHim.smil/playlist.m3u8"
+id="u27"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u27')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn1/PraiseHim/smil:PraiseHim.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3ABN PROCLAIM! NETWORK">
+
+<div class="nome">
+3ABN PROCLAIM! NETWORK
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://3abn.bozztv.com/3abn2/Pro_live/smil:Pro_live.smil/playlist.m3u8"
+id="u28"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u28')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://3abn.bozztv.com/3abn2/Pro_live/smil:Pro_live.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3CAT EL BÚNQUER">
+
+<div class="nome">
+3CAT EL BÚNQUER
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://fast-tailor.3catdirectes.cat/v1/channel/bunquer/hls.m3u8"
+id="u29"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u29')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://fast-tailor.3catdirectes.cat/v1/channel/bunquer/hls.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="3CAT PLATS BRUTS">
+
+<div class="nome">
+3CAT PLATS BRUTS
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://fast-tailor.3catdirectes.cat/v1/channel/ccma-channel2/hls.m3u8"
+id="u30"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u30')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://fast-tailor.3catdirectes.cat/v1/channel/ccma-channel2/hls.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4 AFGHANISTAN">
+
+<div class="nome">
+4 AFGHANISTAN
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://4afghls.persiana.live/hls/stream.m3u8"
+id="u31"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u31')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://4afghls.persiana.live/hls/stream.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4 FUN KIDS ]">
+
+<div class="nome">
+4 FUN KIDS ]
+</div>
+
+<div class="categoria">
+INFANTIL
+</div>
+
+<input
+type="text"
+value="https://stream.4fun.tv:8889/hls/4fk_high/index.m3u8"
+id="u32"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u32')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://stream.4fun.tv:8889/hls/4fk_high/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4 FUN TV">
+
+<div class="nome">
+4 FUN TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://stream.4fun.tv:8888/hls/4f_high/index.m3u8"
+id="u33"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u33')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://stream.4fun.tv:8888/hls/4f_high/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4 KURD">
+
+<div class="nome">
+4 KURD
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://4kuhls.persiana.live/hls/stream.m3u8"
+id="u34"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u34')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://4kuhls.persiana.live/hls/stream.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4DMÁSNOTICIAS TV">
+
+<div class="nome">
+4DMÁSNOTICIAS TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://rds3.desdeparaguay.net/4dmasnoticiastv/4dmasnoticiastv/playlist.m3u8"
+id="u35"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u35')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://rds3.desdeparaguay.net/4dmasnoticiastv/4dmasnoticiastv/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4E">
+
+<div class="nome">
+4E
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://eu2.tv4e.gr:554/live/smil:myStream.sdp.smil/playlist.m3u8"
+id="u36"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u36')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://eu2.tv4e.gr:554/live/smil:myStream.sdp.smil/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4TV NEWS">
+
+<div class="nome">
+4TV NEWS
+</div>
+
+<div class="categoria">
+NOTICIAS
+</div>
+
+<input
+type="text"
+value="https://cdn-4.pishow.tv/live/1007/master.m3u8"
+id="u37"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u37')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://cdn-4.pishow.tv/live/1007/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4U TV">
+
+<div class="nome">
+4U TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://hls.4utv.live/hls/stream.m3u8"
+id="u38"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u38')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://hls.4utv.live/hls/stream.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="4UV">
+
+<div class="nome">
+4UV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d3qg1liq0unuxm.cloudfront.net/4UV.m3u8"
+id="u39"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u39')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d3qg1liq0unuxm.cloudfront.net/4UV.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="5-MINUTE CRAFT">
+
+<div class="nome">
+5-MINUTE CRAFT
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://soul-5mincrafteng-rakuten.amagi.tv/playlist.m3u8"
+id="u40"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u40')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://soul-5mincrafteng-rakuten.amagi.tv/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="5AAB TV">
+
+<div class="nome">
+5AAB TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://158.69.124.9:1935/5aabtv/5aabtv/playlist.m3u8"
+id="u41"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u41')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://158.69.124.9:1935/5aabtv/5aabtv/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="5TV CORRIENTES">
+
+<div class="nome">
+5TV CORRIENTES
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://www.coninfo.net:1935/tvcinco/live1/playlist.m3u8"
+id="u42"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u42')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://www.coninfo.net:1935/tvcinco/live1/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="6 TV TELUGU">
+
+<div class="nome">
+6 TV TELUGU
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://cdn-1.pishow.tv/live/232/master.m3u8"
+id="u43"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u43')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://cdn-1.pishow.tv/live/232/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="7 RADIOVISIONE">
+
+<div class="nome">
+7 RADIOVISIONE
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://stream10.xdevel.com/video1s976543-1932/stream/playlist.m3u8"
+id="u44"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u44')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://stream10.xdevel.com/video1s976543-1932/stream/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="7 TELEVALENCIA">
+
+<div class="nome">
+7 TELEVALENCIA
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://play.cdn.enetres.net/9E9557EFCEBB43A89CEC8FBD3C500247022/028/playlist.m3u8"
+id="u45"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u45')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://play.cdn.enetres.net/9E9557EFCEBB43A89CEC8FBD3C500247022/028/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="7 YOU & ME">
+
+<div class="nome">
+7 YOU & ME
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://stream10.xdevel.com/video0s977798-2239/stream/playlist.m3u8"
+id="u46"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u46')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://stream10.xdevel.com/video0s977798-2239/stream/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="7S MUSIC">
+
+<div class="nome">
+7S MUSIC
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://mumt03.tangotv.in/7SMUSIC/index.m3u8"
+id="u47"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u47')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://mumt03.tangotv.in/7SMUSIC/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="7TV">
+
+<div class="nome">
+7TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://31.148.48.15/7TV/index.m3u8"
+id="u48"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u48')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://31.148.48.15/7TV/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="8 LA MARINA TV">
+
+<div class="nome">
+8 LA MARINA TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://streaming005.gestec-video.com/hls/canal24.m3u8"
+id="u49"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u49')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://streaming005.gestec-video.com/hls/canal24.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="8 OUT OF 10 CATS">
+
+<div class="nome">
+8 OUT OF 10 CATS
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d1l7vcuh4hn9ei.cloudfront.net/8OutOf10Cats_GB.m3u8"
+id="u50"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u50')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d1l7vcuh4hn9ei.cloudfront.net/8OutOf10Cats_GB.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="8NTV">
+
+<div class="nome">
+8NTV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://60417ddeaf0d9.streamlock.net/ntv/videontv/playlist.m3u8"
+id="u51"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u51')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://60417ddeaf0d9.streamlock.net/ntv/videontv/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="8TV">
+
+<div class="nome">
+8TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://cdn6.163189.xyz/163189/8tv"
+id="u52"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u52')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://cdn6.163189.xyz/163189/8tv"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="99TV">
+
+<div class="nome">
+99TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://cdn-1.pishow.tv/live/1211/master.m3u8"
+id="u53"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u53')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://cdn-1.pishow.tv/live/1211/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="9X JALWA">
+
+<div class="nome">
+9X JALWA
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://b.jsrdn.com/strm/channels/9xjalwa/master.m3u8"
+id="u54"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u54')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://b.jsrdn.com/strm/channels/9xjalwa/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="9X JHAKAAS">
+
+<div class="nome">
+9X JHAKAAS
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://9xjio.wiseplayout.com/9X_Jhakaas/master.m3u8"
+id="u55"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u55')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://9xjio.wiseplayout.com/9X_Jhakaas/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="9X TASHAN">
+
+<div class="nome">
+9X TASHAN
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://9xjio.wiseplayout.com/9X_Tashan/master.m3u8"
+id="u56"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u56')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://9xjio.wiseplayout.com/9X_Tashan/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="9XM">
+
+<div class="nome">
+9XM
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://9xjio.wiseplayout.com/9XM/master.m3u8"
+id="u57"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u57')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://9xjio.wiseplayout.com/9XM/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="A&R CANAL ADVENTISTA">
+
+<div class="nome">
+A&R CANAL ADVENTISTA
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://51.222.9.192:3589/stream/play.m3u8"
+id="u58"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u58')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://51.222.9.192:3589/stream/play.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="A+ IVOIRE">
+
+<div class="nome">
+A+ IVOIRE
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://69.64.57.208/atv/playlist.m3u8"
+id="u59"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u59')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://69.64.57.208/atv/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AAKAASH AATH">
+
+<div class="nome">
+AAKAASH AATH
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://mumt03.tangotv.in/AAKASHAATH/index.m3u8"
+id="u60"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u60')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://mumt03.tangotv.in/AAKASHAATH/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ABC">
+
+<div class="nome">
+ABC
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://41.205.93.154/ABC/index.m3u8"
+id="u61"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u61')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://41.205.93.154/ABC/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ABSINTHE TV">
+
+<div class="nome">
+ABSINTHE TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://streams2.sofast.tv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/254b2fef-a3dd-4a6d-af18-38711e02e31c/manifest.m3u8"
+id="u62"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u62')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://streams2.sofast.tv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/254b2fef-a3dd-4a6d-af18-38711e02e31c/manifest.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ACE TV">
+
+<div class="nome">
+ACE TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
+id="u63"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u63')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://streams2.sofast.tv/WiseM3U8_30/sofast/cleanhls/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AFRICABLE TV">
+
+<div class="nome">
+AFRICABLE TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://69.64.57.208/africable/playlist.m3u8"
+id="u64"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u64')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://69.64.57.208/africable/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AL ALAMIYA 2">
+
+<div class="nome">
+AL ALAMIYA 2
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://82.212.74.98:8000/live/7815.m3u8"
+id="u65"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u65')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://82.212.74.98:8000/live/7815.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AL JADEED">
+
+<div class="nome">
+AL JADEED
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://185.9.2.18/chid_391/mono.m3u8"
+id="u66"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u66')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://185.9.2.18/chid_391/mono.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AL-BAHJAH TV">
+
+<div class="nome">
+AL-BAHJAH TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://202.150.161.117:8000/play/AlBahjahTV"
+id="u67"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u67')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://202.150.161.117:8000/play/AlBahjahTV"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ALCARRIA TV">
+
+<div class="nome">
+ALCARRIA TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://217.182.77.27/live/alcarriatv-livestream.m3u8"
+id="u68"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u68')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://217.182.77.27/live/alcarriatv-livestream.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ALERTH ALNABAWI CHANNEL">
+
+<div class="nome">
+ALERTH ALNABAWI CHANNEL
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://82.212.74.2:8000/live/7307.m3u8"
+id="u69"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u69')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://82.212.74.2:8000/live/7307.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ALL TIME MOVIES">
+
+<div class="nome">
+ALL TIME MOVIES
+</div>
+
+<div class="categoria">
+FILMES
+</div>
+
+<input
+type="text"
+value="https://mumt03.tangotv.in/ALLTIMEMOVIES/index.m3u8"
+id="u70"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u70')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://mumt03.tangotv.in/ALLTIMEMOVIES/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AMEDIA 1">
+
+<div class="nome">
+AMEDIA 1
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://31.148.48.15/A1/index.m3u8"
+id="u71"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u71')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://31.148.48.15/A1/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AMEDIA 2">
+
+<div class="nome">
+AMEDIA 2
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://31.148.48.15/A2/index.m3u8"
+id="u72"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u72')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://31.148.48.15/A2/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AMEDIA HIT">
+
+<div class="nome">
+AMEDIA HIT
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://31.148.48.15/Amedia_HIT_HD/index.m3u8"
+id="u73"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u73')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://31.148.48.15/Amedia_HIT_HD/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AMEDIA PREMIUM">
+
+<div class="nome">
+AMEDIA PREMIUM
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://31.148.48.15/Amedia_Premium_HD/index.m3u8"
+id="u74"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u74')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://31.148.48.15/Amedia_Premium_HD/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AMERICA'S BOATING CHANNEL">
+
+<div class="nome">
+AMERICA'S BOATING CHANNEL
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://streams2.sofast.tv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/04c3a27e-c2a0-420b-8eef-7dae9ab93056/manifest.m3u8"
+id="u75"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u75')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://streams2.sofast.tv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/04c3a27e-c2a0-420b-8eef-7dae9ab93056/manifest.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AMERICAN HORRORS">
+
+<div class="nome">
+AMERICAN HORRORS
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://107.167.7.162:8081/playlist/amhor/playlist.m3u8"
+id="u76"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u76')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://107.167.7.162:8081/playlist/amhor/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ANI">
+
+<div class="nome">
+ANI
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://31.148.48.15/Ani/index.m3u8"
+id="u77"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u77')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://31.148.48.15/Ani/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ANJAN TV">
+
+<div class="nome">
+ANJAN TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://cdn-1.pishow.tv/live/993/master.m3u8"
+id="u78"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u78')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://cdn-1.pishow.tv/live/993/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ARADANA TV">
+
+<div class="nome">
+ARADANA TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://cdn-1.pishow.tv/live/961/master.m3u8"
+id="u79"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u79')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://cdn-1.pishow.tv/live/961/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ARB">
+
+<div class="nome">
+ARB
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://raw.githubusercontent.com/UzunMuhalefet/streams/main/myvideo-az/arb.m3u8"
+id="u80"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u80')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://raw.githubusercontent.com/UzunMuhalefet/streams/main/myvideo-az/arb.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ARB GUNES">
+
+<div class="nome">
+ARB GUNES
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://raw.githubusercontent.com/UzunMuhalefet/streams/main/myvideo-az/arb-gunes.m3u8"
+id="u81"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u81')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://raw.githubusercontent.com/UzunMuhalefet/streams/main/myvideo-az/arb-gunes.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ASIANET MIDDLE EAST">
+
+<div class="nome">
+ASIANET MIDDLE EAST
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://mumt03.tangotv.in/ASIANETMIDDLEEAST/index.m3u8"
+id="u82"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u82')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://mumt03.tangotv.in/ASIANETMIDDLEEAST/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ASSYRIASAT">
+
+<div class="nome">
+ASSYRIASAT
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://66.242.170.53/hls/live/temp/index.m3u8"
+id="u83"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u83')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://66.242.170.53/hls/live/temp/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ATRESCINE">
+
+<div class="nome">
+ATRESCINE
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://181.114.57.246:4000/play/KgkA9tT2SpLYm86J/index.m3u8"
+id="u84"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u84')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://181.114.57.246:4000/play/KgkA9tT2SpLYm86J/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="ATV">
+
+<div class="nome">
+ATV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://212.186.45.34:9981/stream/channelid/692531719?profile=pass"
+id="u85"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u85')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://212.186.45.34:9981/stream/channelid/692531719?profile=pass"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AURLIFE">
+
+<div class="nome">
+AURLIFE
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://124.109.47.101/hls/stream1.m3u8"
+id="u86"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u86')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://124.109.47.101/hls/stream1.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AUTOMOTION">
+
+<div class="nome">
+AUTOMOTION
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://streams2.sofast.tv/sofastplayout/0c3229e2-6ca5-4714-859e-c0ac6b9aa58a_0_HLS/master.m3u8"
+id="u87"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u87')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://streams2.sofast.tv/sofastplayout/0c3229e2-6ca5-4714-859e-c0ac6b9aa58a_0_HLS/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AWAKENING TV">
+
+<div class="nome">
+AWAKENING TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://mumt03.tangotv.in/AWAKENINGTV/index.m3u8"
+id="u88"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u88')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://mumt03.tangotv.in/AWAKENINGTV/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="AXN LATIN AMERICA SOUTH">
+
+<div class="nome">
+AXN LATIN AMERICA SOUTH
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://201.217.246.42:44310/Live/3fcb6e26785fd8d415571b26dc3cf5d3/local-77.playlist.m3u8"
+id="u89"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u89')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://201.217.246.42:44310/Live/3fcb6e26785fd8d415571b26dc3cf5d3/local-77.playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="GLOOB">
+
+<div class="nome">
+GLOOB
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://79.127.243.211:14436/_.m3u8"
+id="u90"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u90')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://79.127.243.211:14436/_.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/120.0.0.0 SAFARI/537.36" GROUP-TITLE="GENERAL",AZ TV">
+
+<div class="nome">
+LIKE GECKO) CHROME/120.0.0.0 SAFARI/537.36" GROUP-TITLE="GENERAL",AZ TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://109.205.166.68/server124/aztv/index3.m3u8?e=1676581573&st=AzGSZjk1DpXY1SLc1m4OvA"
+id="u91"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u91')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://109.205.166.68/server124/aztv/index3.m3u8?e=1676581573&st=AzGSZjk1DpXY1SLc1m4OvA"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="MUSIC",AMUSIC CHANNEL">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="MUSIC",AMUSIC CHANNEL
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/LVP8DMYRYH6F6Y5UUO8J/hls3/now,-1m/m.m3u8?ads.vf=McCy6HuluFe"
+id="u92"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u92')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/LVP8DMYRYH6F6Y5UUO8J/hls3/now,-1m/m.m3u8?ads.vf=McCy6HuluFe"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="NEWS",ABP SANJHA">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="NEWS",ABP SANJHA
+</div>
+
+<div class="categoria">
+NOTICIAS
+</div>
+
+<input
+type="text"
+value="https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/abp-sanjha/master.m3u8?ads.vf=pLnwLviYDD0"
+id="u93"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u93')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/abp-sanjha/master.m3u8?ads.vf=pLnwLviYDD0"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="NEWS",AFRICANEWS">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="NEWS",AFRICANEWS
+</div>
+
+<div class="categoria">
+NOTICIAS
+</div>
+
+<input
+type="text"
+value="https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/africanews/africanews-en.m3u8?ads.vf=Cxy9froLXMW"
+id="u94"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u94')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/africanews/africanews-en.m3u8?ads.vf=Cxy9froLXMW"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED", TRAVEL TV">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED", TRAVEL TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/4k-travel-tv/manifest.m3u8?ads.vf=ndSxSDe4vbu"
+id="u95"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u95')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/4k-travel-tv/manifest.m3u8?ads.vf=ndSxSDe4vbu"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",35MM">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",35MM
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/35mm/index.m3u8?ads.vf=qqy_QVwkdkC"
+id="u96"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u96')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/35mm/index.m3u8?ads.vf=qqy_QVwkdkC"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",4ACETV">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",4ACETV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/CVA0UNL2K6KH61IL162P/hls3/now,-1m/m.m3u8?ads.vf=xoQ8tvFLQ70"
+id="u97"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u97')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/CVA0UNL2K6KH61IL162P/hls3/now,-1m/m.m3u8?ads.vf=xoQ8tvFLQ70"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",A-Z CLASSIC FLIX">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",A-Z CLASSIC FLIX
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/8WOSAE6HHWJY8KP8BW2C/hls3/now,-1m/m.m3u8?ads.vf=7-VUi572FgK"
+id="u98"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u98')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/8WOSAE6HHWJY8KP8BW2C/hls3/now,-1m/m.m3u8?ads.vf=7-VUi572FgK"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",A-Z WESTERN GRIT">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",A-Z WESTERN GRIT
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/P6T1SCG4XU9MM36TQSB5/hls3/now,-1m/m.m3u8?ads.vf=4TlF3ABNLHW"
+id="u99"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u99')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d3s7x6kmqcnb6b.cloudfront.net/d/distro001a/P6T1SCG4XU9MM36TQSB5/hls3/now,-1m/m.m3u8?ads.vf=4TlF3ABNLHW"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",ACE TV">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",ACE TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/ace-tv/playlist.m3u8?ads.vf=nL2TlftJe1q"
+id="u100"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u100')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/ace-tv/playlist.m3u8?ads.vf=nL2TlftJe1q"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",AWE PLUS">
+
+<div class="nome">
+LIKE GECKO) CHROME/145.0.0.0 SAFARI/537.36 EDG/145.0.0.0" GROUP-TITLE="UNDEFINED",AWE PLUS
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/awe-encore/playlist.m3u8?ads.vf=JS9U64wz-A8"
+id="u101"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u101')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/awe-encore/playlist.m3u8?ads.vf=JS9U64wz-A8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="R PERTH">
+
+<div class="nome">
+R PERTH
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://6prlive.akamaized.net/hls/live/2033806/6PR/index.m3u8"
+id="u102"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u102')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://6prlive.akamaized.net/hls/live/2033806/6PR/index.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="SBS G1">
+
+<div class="nome">
+SBS G1
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://61.82.49.4:1935/live/_definst_/tv.stream/playlist.m3u8"
+id="u103"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u103')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://61.82.49.4:1935/live/_definst_/tv.stream/playlist.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="SBS JIBS">
+
+<div class="nome">
+SBS JIBS
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://123.140.197.22/stream/1/play.m3u8"
+id="u104"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u104')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://123.140.197.22/stream/1/play.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="STAR BHARAT">
+
+<div class="nome">
+STAR BHARAT
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="http://103.253.18.58:8000/play/a00u"
+id="u105"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u105')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=http://103.253.18.58:8000/play/a00u"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="card"
+
+data-name="TRAVEL TV">
+
+<div class="nome">
+TRAVEL TV
+</div>
+
+<div class="categoria">
+GERAL
+</div>
+
+<input
+type="text"
+value="https://streams2.sofast.tv/sofastplayout/33c31ac4-51fa-46ae-afd0-0d1fe5e60a80_0_HLS/master.m3u8"
+id="u106"
+readonly
+/>
+
+<div class="btns">
+
+<button
+class="copy"
+onclick="copiar('u106')"
+>
+COPIAR
+</button>
+
+<a
+class="test"
+target="_blank"
+href="https://hls-js.netlify.app/demo/?src=https://streams2.sofast.tv/sofastplayout/33c31ac4-51fa-46ae-afd0-0d1fe5e60a80_0_HLS/master.m3u8"
+>
+TESTAR
+</a>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+<script>
+
+function filtrar(){
+
+    let q = document
+    .getElementById("search")
+    .value
+    .toUpperCase()
+
+    let cards =
+    document.getElementsByClassName("card")
+
+    for(let i=0;i<cards.length;i++){
+
+        let n =
+        cards[i]
+        .getAttribute("data-name")
+
+        cards[i]
+        .classList
+        .toggle(
+            "hidden",
+            !n.includes(q)
+        )
+    }
+}
+
+function copiar(id){
+
+    let el =
+    document.getElementById(id)
+
+    el.select()
+
+    document.execCommand("copy")
+
+    alert("URL copiada!")
+
+}
+
+</script>
+
+</body>
+
+</html>
+
