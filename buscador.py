@@ -5,18 +5,19 @@ import re
 
 from datetime import datetime
 
-# ============================================
+# ======================================================
 # CONFIG
-# ============================================
+# ======================================================
 
 DB_NAME = "canais.db"
 HTML_NAME = "index.html"
 
-TIMEOUT = 10
+TIMEOUT_LISTA = 10
+TIMEOUT_STREAM = 3
 
-# ============================================
+# ======================================================
 # FONTES PUBLICAS
-# ============================================
+# ======================================================
 
 FONTES = [
 
@@ -29,7 +30,7 @@ FONTES = [
     "https://iptv-org.github.io/iptv/categories/movies.m3u",
     "https://iptv-org.github.io/iptv/categories/kids.m3u",
 
-    # LISTAS GITHUB
+    # GITHUB PUBLICOS
     "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u",
     "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
     "https://raw.githubusercontent.com/HelmerLousas/m3u-br/main/br.m3u",
@@ -38,9 +39,9 @@ FONTES = [
     "https://raw.githubusercontent.com/Geovane-S/Listas/main/Brasil.m3u",
 ]
 
-# ============================================
+# ======================================================
 # HEADERS
-# ============================================
+# ======================================================
 
 HEADERS = {
     "User-Agent": (
@@ -52,9 +53,9 @@ HEADERS = {
     )
 }
 
-# ============================================
+# ======================================================
 # DATABASE
-# ============================================
+# ======================================================
 
 def iniciar_banco():
 
@@ -84,9 +85,9 @@ def iniciar_banco():
 
     conn.close()
 
-# ============================================
+# ======================================================
 # LIMPAR NOME
-# ============================================
+# ======================================================
 
 def limpar_nome(nome):
 
@@ -102,9 +103,9 @@ def limpar_nome(nome):
 
     return nome
 
-# ============================================
-# CATEGORIA
-# ============================================
+# ======================================================
+# CATEGORIAS
+# ======================================================
 
 def detectar_categoria(nome):
 
@@ -113,8 +114,8 @@ def detectar_categoria(nome):
     if any(x in nome for x in [
         "SPORT",
         "ESPN",
-        "COMBATE",
-        "PREMIERE"
+        "PREMIERE",
+        "COMBATE"
     ]):
         return "ESPORTES"
 
@@ -128,8 +129,8 @@ def detectar_categoria(nome):
 
     if any(x in nome for x in [
         "KIDS",
-        "CARTOON",
-        "INFANTIL"
+        "INFANTIL",
+        "CARTOON"
     ]):
         return "INFANTIL"
 
@@ -142,9 +143,9 @@ def detectar_categoria(nome):
 
     return "GERAL"
 
-# ============================================
+# ======================================================
 # BAIXAR LISTA
-# ============================================
+# ======================================================
 
 async def baixar_lista(session, url):
 
@@ -154,7 +155,7 @@ async def baixar_lista(session, url):
 
             url,
 
-            timeout=TIMEOUT,
+            timeout=TIMEOUT_LISTA,
 
             headers=HEADERS
 
@@ -168,9 +169,9 @@ async def baixar_lista(session, url):
     except:
         return ""
 
-# ============================================
+# ======================================================
 # EXTRAIR CANAIS
-# ============================================
+# ======================================================
 
 def extrair_canais(conteudo):
 
@@ -211,19 +212,19 @@ def extrair_canais(conteudo):
 
     return canais
 
-# ============================================
+# ======================================================
 # VALIDAR STREAM
-# ============================================
+# ======================================================
 
-async def validar_stream(session, url):
+async def validar_stream(session, canal):
 
     try:
 
         async with session.get(
 
-            url,
+            canal["url"],
 
-            timeout=8,
+            timeout=TIMEOUT_STREAM,
 
             headers=HEADERS,
 
@@ -232,34 +233,16 @@ async def validar_stream(session, url):
         ) as response:
 
             if response.status != 200:
-                return False
+                return canal, False
 
-            content_type = response.headers.get(
-
-                "Content-Type",
-
-                ""
-
-            ).lower()
-
-            if (
-
-                "mpegurl" in content_type
-                or "video" in content_type
-                or ".m3u8" in url
-                or ".ts" in url
-
-            ):
-                return True
-
-            return True
+            return canal, True
 
     except:
-        return False
+        return canal, False
 
-# ============================================
-# SALVAR DB
-# ============================================
+# ======================================================
+# SALVAR BANCO
+# ======================================================
 
 def salvar_canal(canal, status):
 
@@ -271,9 +254,7 @@ def salvar_canal(canal, status):
 
         cursor.execute("""
 
-        INSERT OR REPLACE INTO canais
-
-        (
+        INSERT OR REPLACE INTO canais (
 
             nome,
             categoria,
@@ -288,11 +269,8 @@ def salvar_canal(canal, status):
         """, (
 
             canal["nome"],
-
             canal["categoria"],
-
             canal["url"],
-
             status,
 
             datetime.now().strftime(
@@ -308,9 +286,9 @@ def salvar_canal(canal, status):
 
     conn.close()
 
-# ============================================
+# ======================================================
 # GERAR HTML
-# ============================================
+# ======================================================
 
 def gerar_html(canais):
 
@@ -333,182 +311,111 @@ def gerar_html(canais):
 <style>
 
 body {{
-
     margin:0;
     background:#050505;
     color:white;
     font-family:Arial;
-
 }}
 
 header {{
-
     position:sticky;
     top:0;
-
     background:#000;
-
     padding:20px;
-
     border-bottom:2px solid red;
-
     z-index:999;
-
 }}
 
 h1 {{
-
     margin:0;
-
     color:#ff0000;
-
 }}
 
 .stats {{
-
     color:#aaa;
-
     margin-top:5px;
-
 }}
 
 #search {{
-
     width:100%;
-
     padding:12px;
-
     margin-top:15px;
-
     border:none;
-
     background:#111;
-
     color:white;
-
     font-size:16px;
-
 }}
 
 .grid {{
-
     display:grid;
-
     grid-template-columns:
     repeat(auto-fill,minmax(300px,1fr));
-
     gap:15px;
-
     padding:20px;
-
 }}
 
 .card {{
-
     background:#111;
-
     border:1px solid #222;
-
     border-radius:10px;
-
     padding:15px;
-
     transition:0.2s;
-
 }}
 
 .card:hover {{
-
     transform:scale(1.02);
-
     border-color:red;
-
 }}
 
 .nome {{
-
     font-weight:bold;
-
     margin-bottom:10px;
-
 }}
 
 .categoria {{
-
     color:#00ff88;
-
     font-size:12px;
-
     margin-bottom:10px;
-
 }}
 
 input {{
-
     width:100%;
-
     background:#000;
-
     color:#00ff00;
-
     border:1px solid #333;
-
     padding:8px;
-
     font-size:11px;
-
 }}
 
 .btns {{
-
     display:flex;
-
     gap:8px;
-
     margin-top:10px;
-
 }}
 
 button,a {{
-
     flex:1;
-
     border:none;
-
     padding:10px;
-
     text-align:center;
-
     text-decoration:none;
-
     border-radius:5px;
-
     cursor:pointer;
-
     font-weight:bold;
-
 }}
 
 .copy {{
-
     background:#00ff00;
-
     color:black;
-
 }}
 
 .test {{
-
     background:red;
-
     color:white;
-
 }}
 
 .hidden {{
-
     display:none;
-
 }}
 
 </style>
@@ -534,15 +441,10 @@ ATUALIZADO:
 </div>
 
 <input
-
 type="text"
-
 id="search"
-
 placeholder="Buscar canais..."
-
 onkeyup="filtrar()"
-
 />
 
 </header>
@@ -560,55 +462,35 @@ onkeyup="filtrar()"
 data-name="{canal['nome']}">
 
 <div class="nome">
-
 {canal['nome']}
-
 </div>
 
 <div class="categoria">
-
 {canal['categoria']}
-
 </div>
 
 <input
-
 type="text"
-
 value="{canal['url']}"
-
 id="u{i}"
-
 readonly
-
 />
 
 <div class="btns">
 
 <button
-
 class="copy"
-
 onclick="copiar('u{i}')"
-
 >
-
 COPIAR
-
 </button>
 
 <a
-
 class="test"
-
 target="_blank"
-
 href="https://hls-js.netlify.app/demo/?src={canal['url']}"
-
 >
-
 TESTAR
-
 </a>
 
 </div>
@@ -635,7 +517,8 @@ function filtrar(){
 
     for(let i=0;i<cards.length;i++){
 
-        let n = cards[i]
+        let n =
+        cards[i]
         .getAttribute("data-name")
 
         cards[i]
@@ -680,9 +563,9 @@ function copiar(id){
 
         f.write(html)
 
-# ============================================
+# ======================================================
 # PROCESSAR
-# ============================================
+# ======================================================
 
 async def processar():
 
@@ -692,7 +575,9 @@ async def processar():
 
     connector = aiohttp.TCPConnector(
 
-        limit=300
+        limit=1000,
+
+        ssl=False
 
     )
 
@@ -702,6 +587,10 @@ async def processar():
 
     ) as session:
 
+        # ==================================================
+        # BAIXAR LISTAS
+        # ==================================================
+
         tarefas = [
 
             baixar_lista(session, fonte)
@@ -710,7 +599,13 @@ async def processar():
 
         ]
 
-        resultados = await asyncio.gather(*tarefas)
+        resultados = await asyncio.gather(
+
+            *tarefas,
+
+            return_exceptions=True
+
+        )
 
         todos = []
 
@@ -723,7 +618,9 @@ async def processar():
 
             todos.extend(canais)
 
+        # ==================================================
         # REMOVER DUPLICADOS
+        # ==================================================
 
         vistos = set()
 
@@ -743,26 +640,34 @@ async def processar():
 
         print(f"\n📡 TOTAL EXTRAIDO: {len(unicos)}")
 
-        # VALIDAR
+        # ==================================================
+        # VALIDAR EM PARALELO
+        # ==================================================
+
+        tasks = [
+
+            validar_stream(session, canal)
+
+            for canal in unicos
+
+        ]
+
+        resultados = await asyncio.gather(
+
+            *tasks,
+
+            return_exceptions=True
+
+        )
 
         validos = []
 
-        for i, canal in enumerate(unicos):
+        for resultado in resultados:
 
-            print(
+            if isinstance(resultado, Exception):
+                continue
 
-                f"🔎 [{i+1}/{len(unicos)}] "
-                f"{canal['nome'][:50]}"
-
-            )
-
-            ok = await validar_stream(
-
-                session,
-
-                canal["url"]
-
-            )
+            canal, ok = resultado
 
             status = (
                 "ONLINE"
@@ -771,11 +676,8 @@ async def processar():
             )
 
             salvar_canal(
-
                 canal,
-
                 status
-
             )
 
             if ok:
@@ -783,13 +685,29 @@ async def processar():
 
         print(f"\n✅ ONLINE: {len(validos)}")
 
+        # ==================================================
+        # ORDENAR
+        # ==================================================
+
+        validos = sorted(
+
+            validos,
+
+            key=lambda x: x["nome"]
+
+        )
+
+        # ==================================================
+        # GERAR HTML
+        # ==================================================
+
         gerar_html(validos)
 
         print("\n💾 HTML GERADO")
 
-# ============================================
+# ======================================================
 # START
-# ============================================
+# ======================================================
 
 if __name__ == "__main__":
 
