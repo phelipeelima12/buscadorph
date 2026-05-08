@@ -5,30 +5,44 @@ import re
 
 from datetime import datetime
 
-# ======================================================
+# =========================================================
 # CONFIG
-# ======================================================
+# =========================================================
 
 DB_NAME = "canais.db"
 HTML_NAME = "index.html"
 
-TIMEOUT_LISTA = 10
-TIMEOUT_STREAM = 3
+TIMEOUT_LISTA = 8
 
-# ======================================================
-# FONTES PUBLICAS
-# ======================================================
+# =========================================================
+# FONTES PUBLICAS MASSIVAS
+# =========================================================
 
 FONTES = [
 
-    # IPTV ORG
+    # IPTV ORG GLOBAL
     "https://iptv-org.github.io/iptv/index.m3u",
+
+    # PAISES
     "https://iptv-org.github.io/iptv/countries/br.m3u",
-    "https://iptv-org.github.io/iptv/languages/por.m3u",
+    "https://iptv-org.github.io/iptv/countries/us.m3u",
+    "https://iptv-org.github.io/iptv/countries/uk.m3u",
+    "https://iptv-org.github.io/iptv/countries/es.m3u",
+    "https://iptv-org.github.io/iptv/countries/fr.m3u",
+    "https://iptv-org.github.io/iptv/countries/it.m3u",
+    "https://iptv-org.github.io/iptv/countries/de.m3u",
+    "https://iptv-org.github.io/iptv/countries/pt.m3u",
+    "https://iptv-org.github.io/iptv/countries/ar.m3u",
+    "https://iptv-org.github.io/iptv/countries/mx.m3u",
+
+    # CATEGORIAS
     "https://iptv-org.github.io/iptv/categories/news.m3u",
     "https://iptv-org.github.io/iptv/categories/sports.m3u",
     "https://iptv-org.github.io/iptv/categories/movies.m3u",
     "https://iptv-org.github.io/iptv/categories/kids.m3u",
+    "https://iptv-org.github.io/iptv/categories/music.m3u",
+    "https://iptv-org.github.io/iptv/categories/documentary.m3u",
+    "https://iptv-org.github.io/iptv/categories/entertainment.m3u",
 
     # GITHUB PUBLICOS
     "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u",
@@ -37,11 +51,12 @@ FONTES = [
     "https://raw.githubusercontent.com/GuikiAnimes/Canal-Aberto-Brasil/main/CanalAbertoBrasil.m3u",
     "https://raw.githubusercontent.com/LITUATUI/IPTV/main/BR.m3u",
     "https://raw.githubusercontent.com/Geovane-S/Listas/main/Brasil.m3u",
+
 ]
 
-# ======================================================
+# =========================================================
 # HEADERS
-# ======================================================
+# =========================================================
 
 HEADERS = {
     "User-Agent": (
@@ -53,9 +68,9 @@ HEADERS = {
     )
 }
 
-# ======================================================
+# =========================================================
 # DATABASE
-# ======================================================
+# =========================================================
 
 def iniciar_banco():
 
@@ -71,10 +86,7 @@ def iniciar_banco():
 
         nome TEXT,
         categoria TEXT,
-        url TEXT UNIQUE,
-
-        status TEXT,
-
+        url TEXT,
         ultima_verificacao TEXT
 
     )
@@ -85,16 +97,17 @@ def iniciar_banco():
 
     conn.close()
 
-# ======================================================
+# =========================================================
 # LIMPAR NOME
-# ======================================================
+# =========================================================
 
 def limpar_nome(nome):
 
     nome = nome.upper()
 
+    # LIMPEZA LEVE
     nome = re.sub(
-        r'\[.*?\]|\(.*?\)|\d+P|HD|FHD|4K|UHD|SD|\||★|►',
+        r'\[.*?\]|\(.*?\)|\||★|►',
         '',
         nome
     )
@@ -103,9 +116,9 @@ def limpar_nome(nome):
 
     return nome
 
-# ======================================================
+# =========================================================
 # CATEGORIAS
-# ======================================================
+# =========================================================
 
 def detectar_categoria(nome):
 
@@ -115,7 +128,9 @@ def detectar_categoria(nome):
         "SPORT",
         "ESPN",
         "PREMIERE",
-        "COMBATE"
+        "COMBATE",
+        "NBA",
+        "NFL"
     ]):
         return "ESPORTES"
 
@@ -123,29 +138,38 @@ def detectar_categoria(nome):
         "FILME",
         "MOVIE",
         "HBO",
-        "TELECINE"
+        "TELECINE",
+        "CINEMA"
     ]):
         return "FILMES"
 
     if any(x in nome for x in [
         "KIDS",
+        "CARTOON",
         "INFANTIL",
-        "CARTOON"
+        "DISNEY"
     ]):
         return "INFANTIL"
 
     if any(x in nome for x in [
         "NEWS",
         "CNN",
+        "FOX NEWS",
         "GLOBO NEWS"
     ]):
         return "NOTICIAS"
 
+    if any(x in nome for x in [
+        "MUSIC",
+        "MTV"
+    ]):
+        return "MUSICA"
+
     return "GERAL"
 
-# ======================================================
-# BAIXAR LISTA
-# ======================================================
+# =========================================================
+# BAIXAR LISTAS
+# =========================================================
 
 async def baixar_lista(session, url):
 
@@ -169,9 +193,9 @@ async def baixar_lista(session, url):
     except:
         return ""
 
-# ======================================================
+# =========================================================
 # EXTRAIR CANAIS
-# ======================================================
+# =========================================================
 
 def extrair_canais(conteudo):
 
@@ -180,7 +204,7 @@ def extrair_canais(conteudo):
     regex = (
         r'#EXTINF:.*?,(.*?)\n'
         r'(?:#.*?\n)*'
-        r'((?:https?|rtmp|rtsp)[^\s\n\r]+)'
+        r'((?:https?|rtmp|rtsp|udp)[^\s\n\r]+)'
     )
 
     matches = re.findall(
@@ -212,39 +236,11 @@ def extrair_canais(conteudo):
 
     return canais
 
-# ======================================================
-# VALIDAR STREAM
-# ======================================================
-
-async def validar_stream(session, canal):
-
-    try:
-
-        async with session.get(
-
-            canal["url"],
-
-            timeout=TIMEOUT_STREAM,
-
-            headers=HEADERS,
-
-            allow_redirects=True
-
-        ) as response:
-
-            if response.status != 200:
-                return canal, False
-
-            return canal, True
-
-    except:
-        return canal, False
-
-# ======================================================
+# =========================================================
 # SALVAR BANCO
-# ======================================================
+# =========================================================
 
-def salvar_canal(canal, status):
+def salvar_canal(canal):
 
     conn = sqlite3.connect(DB_NAME)
 
@@ -254,24 +250,22 @@ def salvar_canal(canal, status):
 
         cursor.execute("""
 
-        INSERT OR REPLACE INTO canais (
+        INSERT INTO canais (
 
             nome,
             categoria,
             url,
-            status,
             ultima_verificacao
 
         )
 
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?)
 
         """, (
 
             canal["nome"],
             canal["categoria"],
             canal["url"],
-            status,
 
             datetime.now().strftime(
                 "%d/%m/%Y %H:%M:%S"
@@ -286,9 +280,9 @@ def salvar_canal(canal, status):
 
     conn.close()
 
-# ======================================================
+# =========================================================
 # GERAR HTML
-# ======================================================
+# =========================================================
 
 def gerar_html(canais):
 
@@ -306,7 +300,7 @@ def gerar_html(canais):
 
 <meta charset="UTF-8">
 
-<title>PH-TV ULTIMATE</title>
+<title>PH-TV MASSIVE</title>
 
 <style>
 
@@ -426,11 +420,11 @@ button,a {{
 
 <header>
 
-<h1>☢️ PH-TV ULTIMATE</h1>
+<h1>☢️ PH-TV MASSIVE</h1>
 
 <div class="stats">
 
-ONLINE:
+TOTAL DE STREAMS:
 <b>{len(canais)}</b>
 
 |
@@ -563,19 +557,19 @@ function copiar(id){
 
         f.write(html)
 
-# ======================================================
+# =========================================================
 # PROCESSAR
-# ======================================================
+# =========================================================
 
 async def processar():
 
-    print("\n🚀 INICIANDO SCAN IPTV\n")
+    print("\n🚀 INICIANDO MEGA SCAN IPTV\n")
 
     iniciar_banco()
 
     connector = aiohttp.TCPConnector(
 
-        limit=1000,
+        limit=100,
 
         ssl=False
 
@@ -586,10 +580,6 @@ async def processar():
         connector=connector
 
     ) as session:
-
-        # ==================================================
-        # BAIXAR LISTAS
-        # ==================================================
 
         tarefas = [
 
@@ -618,96 +608,32 @@ async def processar():
 
             todos.extend(canais)
 
-        # ==================================================
-        # REMOVER DUPLICADOS
-        # ==================================================
+        print(f"\n📡 TOTAL ENCONTRADO: {len(todos)}")
 
-        vistos = set()
+        # SEM DEDUPLICAÇÃO
+        canais_finais = todos
 
-        unicos = []
+        # SALVAR
+        for canal in canais_finais:
+            salvar_canal(canal)
 
-        for canal in todos:
-
-            url = canal["url"] \
-                .strip() \
-                .lower()
-
-            if url not in vistos:
-
-                vistos.add(url)
-
-                unicos.append(canal)
-
-        print(f"\n📡 TOTAL EXTRAIDO: {len(unicos)}")
-
-        # ==================================================
-        # VALIDAR EM PARALELO
-        # ==================================================
-
-        tasks = [
-
-            validar_stream(session, canal)
-
-            for canal in unicos
-
-        ]
-
-        resultados = await asyncio.gather(
-
-            *tasks,
-
-            return_exceptions=True
-
-        )
-
-        validos = []
-
-        for resultado in resultados:
-
-            if isinstance(resultado, Exception):
-                continue
-
-            canal, ok = resultado
-
-            status = (
-                "ONLINE"
-                if ok
-                else "OFFLINE"
-            )
-
-            salvar_canal(
-                canal,
-                status
-            )
-
-            if ok:
-                validos.append(canal)
-
-        print(f"\n✅ ONLINE: {len(validos)}")
-
-        # ==================================================
         # ORDENAR
-        # ==================================================
+        canais_finais = sorted(
 
-        validos = sorted(
-
-            validos,
+            canais_finais,
 
             key=lambda x: x["nome"]
 
         )
 
-        # ==================================================
         # GERAR HTML
-        # ==================================================
+        gerar_html(canais_finais)
 
-        gerar_html(validos)
+        print("\n💾 HTML GERADO COM SUCESSO")
 
-        print("\n💾 HTML GERADO")
-
-# ======================================================
+# =========================================================
 # START
-# ======================================================
+# =========================================================
 
 if __name__ == "__main__":
 
