@@ -407,10 +407,6 @@ button,a {{
     padding:10px 15px;
 }}
 
-.pages button:hover {{
-    border-color:red;
-}}
-
 </style>
 
 </head>
@@ -460,31 +456,31 @@ PRÓXIMA ▶
 
 <script>
 
-const canais = {dados_json}
+const canais = {dados_json};
 
-let canaisFiltrados = [...canais]
+let canaisFiltrados = [...canais];
 
-let paginaAtual = 1
+let paginaAtual = 1;
 
-const porPagina = 80
+const porPagina = 80;
 
-function renderizar(){
+function renderizar() {{
 
     const grid =
-    document.getElementById("grid")
+    document.getElementById("grid");
 
-    grid.innerHTML = ""
+    grid.innerHTML = "";
 
     const inicio =
-    (paginaAtual - 1) * porPagina
+    (paginaAtual - 1) * porPagina;
 
     const fim =
-    inicio + porPagina
+    inicio + porPagina;
 
     const pagina =
-    canaisFiltrados.slice(inicio, fim)
+    canaisFiltrados.slice(inicio, fim);
 
-    pagina.forEach((canal, i) => {{
+    pagina.forEach((canal) => {{
 
         grid.innerHTML += `
 
@@ -498,7 +494,7 @@ function renderizar(){
                 ${{canal.categoria}}
             </div>
 
-            <div class="url" id="u${{i}}">
+            <div class="url">
                 ${{canal.url}}
             </div>
 
@@ -523,74 +519,73 @@ function renderizar(){
 
         </div>
 
-        `
-    }})
+        `;
+    }});
 
-    atualizarInfo()
-}
+    atualizarInfo();
+}}
 
-function atualizarInfo(){{
+function atualizarInfo() {{
 
     const total =
     Math.ceil(
         canaisFiltrados.length / porPagina
-    )
+    );
 
     document.getElementById("pageInfo")
     .innerHTML =
-    `Página ${{paginaAtual}} de ${{total}}`
+    `Página ${{paginaAtual}} de ${{total}}`;
 }}
 
-function buscar(){{
+function buscar() {{
 
     let q =
     document
     .getElementById("search")
     .value
-    .toUpperCase()
+    .toUpperCase();
 
     canaisFiltrados =
     canais.filter(c =>
 
         c.nome.includes(q)
 
-    )
+    );
 
-    paginaAtual = 1
+    paginaAtual = 1;
 
-    renderizar()
+    renderizar();
 }}
 
-function proximaPagina(){{
+function proximaPagina() {{
 
     const total =
     Math.ceil(
         canaisFiltrados.length / porPagina
-    )
+    );
 
-    if(paginaAtual < total){{
-        paginaAtual++
-        renderizar()
+    if(paginaAtual < total) {{
+        paginaAtual++;
+        renderizar();
     }}
 }}
 
-function paginaAnterior(){{
+function paginaAnterior() {{
 
-    if(paginaAtual > 1){{
-        paginaAtual--
-        renderizar()
+    if(paginaAtual > 1) {{
+        paginaAtual--;
+        renderizar();
     }}
 }}
 
-function copiar(texto){{
+function copiar(texto) {{
 
-    navigator.clipboard.writeText(texto)
+    navigator.clipboard.writeText(texto);
 
-    alert("URL copiada!")
-
+    alert("URL copiada!");
 }}
 
-renderizar()
+renderizar();
 
 </script>
 
@@ -665,21 +660,16 @@ async def processar():
 
         print(f"\n📡 TOTAL ENCONTRADO: {len(todos)}")
 
-        # SEM DEDUPLICAÇÃO
-        canais_finais = todos
-
-        # SALVAR
-        for canal in canais_finais:
-            salvar_canal(canal)
-
-        # ORDENAR
         canais_finais = sorted(
 
-            canais_finais,
+            todos,
 
             key=lambda x: x["nome"]
 
         )
+
+        for canal in canais_finais:
+            salvar_canal(canal)
 
         gerar_html(canais_finais)
 
