@@ -3,7 +3,7 @@ from datetime import datetime
 import re
 
 def buscar_links():
-    # Mistura de fontes oficiais e repositórios de "vazamentos" (mais canais)
+    # FONTES APELATIVAS: Algumas dessas listas têm mais de 10 mil canais misturados
     fontes = [
         "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u",
         "https://raw.githubusercontent.com/GuikiAnimes/Canal-Aberto-Brasil/main/CanalAbertoBrasil.m3u",
@@ -11,41 +11,45 @@ def buscar_links():
         "https://raw.githubusercontent.com/HelmerLousas/m3u-br/main/br.m3u",
         "https://raw.githubusercontent.com/paimp/lista-iptv/master/lista.m3u",
         "https://raw.githubusercontent.com/Telesv/Documentarios/main/documentarios.m3u",
-        "https://raw.githubusercontent.com/Dudu_IPTV/Lista_IPTV/main/lista_br.m3u",
-        "https://raw.githubusercontent.com/maikofreitas/TV_ABERTA/main/tv_aberta.m3u",
         "https://raw.githubusercontent.com/AssignZ/Iptv-Gratis-Brasil/main/Lista%20Atualizada.m3u",
-        "https://raw.githubusercontent.com/Joao-P-Marques/iptv-br/master/br.m3u"
+        "https://raw.githubusercontent.com/Deivid-Souto/IPTV-Brasil/main/canais.m3u",
+        "https://raw.githubusercontent.com/estebandiazp/Lista-IPTV-Brasil/master/Brasil.m3u",
+        # FONTE GLOBAIS COM MUITO CONTEÚDO (DUMPS):
+        "https://raw.githubusercontent.com/iptv-org/iptv/master/index.m3u",
+        "https://raw.githubusercontent.com/m3u8playlist/Free-IPTV-Links-Daily/master/brazil.m3u"
     ]
     
     canais_encontrados = []
-    print("🚀 Inciando Mineração de Alta Performance...")
+    print("🚀 MODO BERSERKER ATIVADO: Minerando tudo...")
 
     for url in fontes:
         try:
-            print(f"📡 Varrendo: {url}")
-            # Simulando navegador para evitar bloqueios
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
-            response = requests.get(url, timeout=30, headers=headers)
+            print(f"📡 Varrendo fonte: {url}")
+            # Timeout maior para listas gigantes de 20MB+
+            response = requests.get(url, timeout=45, headers={'User-Agent': 'Mozilla/5.0'})
+            if not response.ok: continue
+
+            conteudo = response.text
+            # Regex de captura profunda: Pega o nome e a URL, mesmo com lixo entre eles
+            matches = re.findall(r'#EXTINF:.*?,(.*?)\n(?:#.*?\n)*(http[^\s\n\r]+)', conteudo)
             
-            if response.ok:
-                conteudo = response.text
-                # Regex agressivo para capturar Nome e URL
-                matches = re.findall(r'#EXTINF:.*?,(.*?)\n(?:#.*?\n)*(http[^\s\n\r]+)', conteudo)
-                
-                for nome, link in matches:
-                    n_limpo = re.sub(r'\[.*?\]|\(.*?\)|\d+P|HD|SD|FHD|\||★|►', '', nome).strip().upper()
+            for nome, link in matches:
+                n_upper = nome.strip().upper()
+                # Se for de lista global, só pegamos se tiver BR ou for canal conhecido
+                if any(x in n_upper for x in ["BR", "BRASIL", "PORTUGUESE", "PT-BR"]) or url != fontes[9]:
+                    n_limpo = re.sub(r'\[.*?\]|\(.*?\)|\d+P|HD|SD|FHD|\|', '', n_upper).strip()
                     if n_limpo and len(link) > 10:
                         canais_encontrados.append({"nome": n_limpo, "url": link.strip()})
         except Exception as e:
-            print(f"⚠️ Erro na fonte: {e}")
+            print(f"⚠️ Falha na fonte {url}: {e}")
 
-    # Deduplicação inteligente
+    # Deduplicação agressiva pela URL base
     vistos = set()
     lista_final = []
     for c in canais_encontrados:
-        u_norm = c['url'].split('?')[0].lower().strip()
-        if u_norm not in vistos:
-            vistos.add(u_norm)
+        u_base = c['url'].split('?')[0].lower().strip()
+        if u_base not in vistos:
+            vistos.add(u_base)
             lista_final.append(c)
     
     return sorted(lista_final, key=lambda x: x['nome'])
@@ -57,120 +61,60 @@ def gerar_painel(canais):
     <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PH-TV ULTIMATE FINDER</title>
         <style>
-            :root {{ --neon: #00ff41; --bg: #050505; --card: #111; --text: #fff; }}
-            body {{ background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; }}
-            
-            .header {{ 
-                position: sticky; top: 0; background: rgba(5,5,5,0.9); 
-                padding: 20px; z-index: 1000; border-bottom: 2px solid var(--neon);
-                backdrop-filter: blur(10px); text-align: center;
-            }}
-            
-            h1 {{ margin: 0; font-size: 24px; letter-spacing: 3px; color: var(--neon); text-shadow: 0 0 10px var(--neon); }}
-            
-            #searchBar {{ 
-                width: 90%; max-width: 800px; padding: 15px; border-radius: 30px; 
-                border: 1px solid #333; background: #000; color: var(--neon); 
-                font-size: 16px; outline: none; margin-top: 15px; transition: 0.3s;
-            }}
-            #searchBar:focus {{ border-color: var(--neon); box-shadow: 0 0 15px rgba(0,255,65,0.2); }}
-
-            .stats {{ font-size: 12px; color: #888; margin-top: 8px; }}
-
-            .grid {{ 
-                display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-                gap: 20px; padding: 25px; 
-            }}
-
-            .card {{ 
-                background: var(--card); border: 1px solid #222; padding: 15px; 
-                border-radius: 15px; position: relative; transition: 0.3s;
-                display: flex; flex-direction: column;
-            }}
-            .card:hover {{ border-color: var(--neon); transform: translateY(-5px); }}
-            
-            .card strong {{ color: #fff; font-size: 16px; margin-bottom: 10px; display: block; }}
-            
-            .url-box {{ 
-                background: #000; color: #0f8; border: 1px solid #333; 
-                padding: 8px; font-size: 10px; border-radius: 5px; 
-                margin-bottom: 12px; font-family: monospace; overflow: hidden;
-            }}
-
-            .actions {{ display: flex; gap: 8px; }}
-            
-            button, .btn-play {{ 
-                flex: 1; padding: 10px; border: none; border-radius: 5px; 
-                cursor: pointer; font-weight: bold; font-size: 12px; 
-                text-decoration: none; text-align: center; transition: 0.2s;
-            }}
-            
-            .btn-copy {{ background: var(--neon); color: #000; }}
-            .btn-copy:hover {{ background: #fff; }}
-            
-            .btn-play {{ background: #007bff; color: #fff; }}
-            .btn-play:hover {{ background: #0056b3; }}
-
-            .status-dot {{ 
-                display: inline-block; width: 10px; height: 10px; 
-                border-radius: 50%; background: #555; margin-right: 5px; 
-            }}
-
+            body {{ background: #000; color: #00ff41; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }}
+            .header {{ position: sticky; top: 0; background: #000; padding: 20px; border-bottom: 2px solid #f00; text-align: center; z-index: 1000; }}
+            #searchBar {{ width: 80%; padding: 12px; background: #111; border: 1px solid #f00; color: #fff; border-radius: 25px; outline: none; margin-top: 10px; }}
+            .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; padding: 20px; }}
+            .card {{ background: #0a0a0a; border: 1px solid #333; padding: 15px; border-radius: 10px; transition: 0.3s; }}
+            .card:hover {{ border-color: #f00; box-shadow: 0 0 15px #f00; }}
+            strong {{ display: block; color: #fff; margin-bottom: 10px; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+            input {{ width: 100%; background: #000; color: #0f0; border: 1px solid #222; padding: 8px; font-size: 10px; margin-bottom: 10px; border-radius: 5px; }}
+            .btns {{ display: flex; gap: 5px; }}
+            button, a {{ flex: 1; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 10px; text-decoration: none; text-align: center; }}
+            .btn-copy {{ background: #00ff41; color: #000; }}
+            .btn-test {{ background: #f00; color: #fff; }}
             .hidden {{ display: none !important; }}
         </style>
     </head>
     <body>
-
         <div class="header">
-            <h1>🔍 PH-TV ULTIMATE FINDER</h1>
-            <div class="stats">
-                CANAIS LOCALIZADOS: <strong style="color:var(--neon);">{len(canais)}</strong> | 
-                ATUALIZADO: {agora}
-            </div>
-            <input type="text" id="searchBar" placeholder="Pesquisar canal, filme ou esporte..." onkeyup="filter()">
+            <h1>PH-TV ULTIMATE: MODO APELAÇÃO 🚀</h1>
+            <div style="font-size: 12px; color: #888;">CANAIS ENCONTRADOS: <strong>{len(canais)}</strong> | ATUALIZADO: {agora}</div>
+            <input type="text" id="searchBar" placeholder="PESQUISAR CANAL..." onkeyup="filter()">
         </div>
-
         <div class="grid" id="mainGrid">
     """
-    
     for i, c in enumerate(canais):
-        sid = f"url-{i}"
+        sid = f"u{i}"
         html_template += f"""
             <div class="card" data-name="{c['nome']}">
-                <strong><span class="status-dot"></span>{c['nome']}</strong>
-                <div class="url-box" id="{sid}">{c['url']}</div>
-                <div class="actions">
+                <strong>{c['nome']}</strong>
+                <input type="text" value="{c['url']}" id="{sid}" readonly>
+                <div class="btns">
                     <button class="btn-copy" onclick="copyText('{sid}')">COPIAR</button>
-                    <a href="https://hls-js.netlify.app/demo/?src={c['url']}" target="_blank" class="btn-play">TESTAR PLAY</a>
+                    <a class="btn-test" href="https://hls-js.netlify.app/demo/?src={c['url']}" target="_blank">TESTAR</a>
                 </div>
             </div>
         """
-        
     html_template += """
         </div>
-
         <script>
             function filter() {
-                let query = document.getElementById('searchBar').value.toUpperCase();
+                let q = document.getElementById('searchBar').value.toUpperCase();
                 let cards = document.getElementsByClassName('card');
                 for (let i = 0; i < cards.length; i++) {
                     let name = cards[i].getAttribute('data-name');
-                    cards[i].classList.toggle('hidden', !name.includes(query));
+                    cards[i].classList.toggle('hidden', !name.includes(q));
                 }
             }
-
             function copyText(id) {
-                let text = document.getElementById(id).innerText;
-                navigator.clipboard.writeText(text).then(() => {
-                    alert("URL Copiada! Jogue no seu Player.");
-                });
+                let el = document.getElementById(id);
+                el.select();
+                document.execCommand("copy");
+                alert("IP Copiado!");
             }
-            
-            // Função para tentar verificar status via Client-side (Opcional/Experimental)
-            console.log("PH-TV System Ready...");
         </script>
     </body>
     </html>
@@ -181,4 +125,3 @@ def gerar_painel(canais):
 if __name__ == "__main__":
     canais = buscar_links()
     gerar_painel(canais)
-    print(f"🚀 Painel gerado com {len(canais)} canais!")
